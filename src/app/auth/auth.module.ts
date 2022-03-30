@@ -6,6 +6,8 @@ import { SignupComponent } from './signup/signup.component';
 import { FirstComponent } from './signup/first/first.component';
 import { SecondComponent } from './signup/second/second.component';
 import { LastComponent } from './signup/last/last.component';
+import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from '../app-routing.module';
 
 
 
@@ -19,7 +21,9 @@ import { LastComponent } from './signup/last/last.component';
     LastComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule,
+    AppRoutingModule
   ]
 })
 export class AuthModule { }
