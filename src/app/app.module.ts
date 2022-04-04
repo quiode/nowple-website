@@ -10,6 +10,9 @@ import { ChatModule } from './chat/chat.module';
 import { HomeModule } from './home/home.module';
 import { ProfileModule } from './profile/profile.module';
 import { SharedModule } from './shared/shared.module';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { AuthInterceptor } from './auth/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -18,15 +21,16 @@ import { SharedModule } from './shared/shared.module';
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     AuthModule,
     ChatModule,
     HomeModule,
     ProfileModule,
     SettingsModule,
-    SharedModule
+    SharedModule,
   ],
-  providers: [],
+  providers: [{ provide: JWT_OPTIONS, useValue: JWT_OPTIONS }, JwtHelperService, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
