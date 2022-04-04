@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { BehaviorSubject, lastValueFrom } from 'rxjs';
+import { BehaviorSubject, firstValueFrom, lastValueFrom } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 
@@ -54,7 +54,6 @@ export class AuthService {
    * tries to log the user in and returns true if successful
    */
   async login(username: string, password: string): Promise<boolean> {
-    // ! error here!, idk why
     const response = this.httpClient.post(environment.backendUrl + '/auth/login', { username, password }, { responseType: 'text' });
     const result = await lastValueFrom(response);
     const expired = this.jwtService.isTokenExpired(result);
@@ -81,5 +80,10 @@ export class AuthService {
     const result = await lastValueFrom(response);
     this.setToken(result);
     return result;
+  }
+
+  logout(): void {
+    this.setToken('');
+    this._isLoggedIn.next(false);
   }
 }

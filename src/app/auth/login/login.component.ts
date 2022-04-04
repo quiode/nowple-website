@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { ModalService } from '../../shared/modal.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent implements OnInit {
     password: new FormControl('', [Validators.required])
   });
 
-  constructor(private authService: AuthService, private modalService: ModalService) { }
+  constructor(private authService: AuthService, private modalService: ModalService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -26,6 +27,8 @@ export class LoginComponent implements OnInit {
       this.authService.login(username.value, password.value).then((value) => {
         if (!value) {
           this.modalService.show({ title: 'Error', message: 'Invalid username or password', confirmText: 'Ok', type: 'alert' });
+        } else {
+          this.router.navigate(['']);
         }
       }).finally(() => {
         this.loginForm.reset();
