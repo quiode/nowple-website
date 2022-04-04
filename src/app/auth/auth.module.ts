@@ -8,7 +8,7 @@ import { SecondComponent } from './signup/second/second.component';
 import { LastComponent } from './signup/last/last.component';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from '../app-routing.module';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -20,10 +20,14 @@ import { AppRoutingModule } from '../app-routing.module';
     SecondComponent,
     LastComponent
   ],
+  providers: [],
   imports: [
     CommonModule,
     RouterModule,
-    AppRoutingModule
-  ]
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  exports: []
 })
 export class AuthModule { }

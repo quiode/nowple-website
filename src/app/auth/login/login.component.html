@@ -1,1 +1,15 @@
-<p>login works!</p>
+<div class="container top-50 start-50 translate-middle position-absolute">
+  <form class="row mx-2 gap-2" (ngSubmit)="submit()" [formGroup]="loginForm">
+    <div class="container">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" class="form-control" placeholder="username"
+        formControlName="username" [ngClass]="loginForm.get('username')?.invalid ? 'is-invalid' : 'is-valid'">
+    </div>
+    <div class="container">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" class="form-control" placeholder="password"
+        formControlName="password" [ngClass]="loginForm.get('password')?.invalid ? 'is-invalid' : 'is-valid'">
+    </div>
+    <button class="btn btn-primary my-3 px-5" type="submit" [disabled]="loginForm.invalid">Login</button>
+  </form>
+</div>

@@ -11,21 +11,25 @@ import { ChatComponent } from './chat/chat/chat.component';
 import { SettingsComponent } from './settings/settings/settings.component';
 import { ProfileComponent } from './profile/profile/profile.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AuthGuard } from './auth/auth.guard';
+import { LoginGuard } from './auth/login.guard';
 
 const routes: Routes = [
-  {path: '', component: AuthHomeComponent, pathMatch: 'full'},
-  {path: 'home', component: HomeComponent},
-  {path: 'login', component: LoginComponent},
-  {path: 'signup', component: SignupComponent, children: [
-    {path: '', redirectTo: '1', pathMatch: 'full'},
-    {path: '1', component: FirstComponent},
-    {path: '2', component: SecondComponent},
-    {path: '3', component: LastComponent},
-  ]},
-  {path: 'chat', component: ChatComponent},
-  {path: 'settings', component: SettingsComponent},
-  {path: 'profile', component: ProfileComponent},
-  {path: '**', component: NotFoundComponent}
+  { path: '', component: AuthHomeComponent, pathMatch: 'full', canActivate: [LoginGuard] },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
+  {
+    path: 'signup', component: SignupComponent, canActivate: [LoginGuard], children: [
+      { path: '', redirectTo: '1', pathMatch: 'full' },
+      { path: '1', component: FirstComponent },
+      { path: '2', component: SecondComponent },
+      { path: '3', component: LastComponent },
+    ]
+  },
+  { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({

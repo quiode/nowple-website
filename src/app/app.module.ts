@@ -9,6 +9,7 @@ import { AuthModule } from './auth/auth.module';
 import { ChatModule } from './chat/chat.module';
 import { HomeModule } from './home/home.module';
 import { ProfileModule } from './profile/profile.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ProfileModule } from './profile/profile.module';
     HomeModule,
     ProfileModule,
     SettingsModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]

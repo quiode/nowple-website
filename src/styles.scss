@@ -1,7 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 
+// settings
 $primary: #CA1375;
 $secondary: #FCC5E2;
 
+$body-bg:transparent;
+
 @import "node_modules/bootstrap/scss/bootstrap";
 
+// style
+body {
+  // background: rgb(202, 19, 117);
+  // background: linear-gradient(45deg, rgba(202, 19, 117, 1) 0%, rgba(252, 197, 226, 1) 35%, rgba(253, 218, 236, 1) 100%);
+}
