@@ -1,7 +1,12 @@
-<form class="container" (ngSubmit)="next()">
+<form class="container" (ngSubmit)="next()" [formGroup]="form">
   <label class="form-label">Username</label>
-  <input class="form-control" type="text" formControlName="username">
+  <input class="form-control" type="text" formControlName="username"
+    [ngClass]="form.get('username')?.invalid ? 'is-invalid' : 'is-valid'">
   <label class="form-label">Password</label>
-  <input class="form-control" type="password" formControlName="password">
-  <button class="btn btn-secondary my-2" [disabled]="form.invalid">Next</button>
+  <input class="form-control" type="password" formControlName="password"
+    [ngClass]="form.get('password')?.invalid ? 'is-invalid' : 'is-valid'">
+  <div class="row">
+    <div class="col m-2"></div>
+    <button class="btn btn-primary col m-2" [disabled]="form.invalid">Next</button>
+  </div>
 </form>
