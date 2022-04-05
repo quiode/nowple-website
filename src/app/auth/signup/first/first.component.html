@@ -1,1 +1,7 @@
-<p>first works!</p>
+<form class="container" (ngSubmit)="next()">
+  <label class="form-label">Username</label>
+  <input class="form-control" type="text" formControlName="username">
+  <label class="form-label">Password</label>
+  <input class="form-control" type="password" formControlName="password">
+  <button class="btn btn-secondary my-2" [disabled]="form.invalid">Next</button>
+</form>

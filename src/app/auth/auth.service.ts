@@ -3,6 +3,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject, firstValueFrom, lastValueFrom } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
+import { SignUpData } from './signup/signup.service';
 
 @Injectable({
   providedIn: 'root'
@@ -85,5 +86,9 @@ export class AuthService {
   logout(): void {
     this.setToken('');
     this._isLoggedIn.next(false);
+  }
+
+  async signUp(signUp: SignUpData) {
+    // TODO
   }
 }
