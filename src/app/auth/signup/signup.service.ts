@@ -13,6 +13,10 @@ export interface FormData1 {
 }
 
 export interface FormData2 {
+  economic: number;
+  diplomatic: number;
+  civil: number;
+  society: number;
 }
 
 export interface FormData3 {

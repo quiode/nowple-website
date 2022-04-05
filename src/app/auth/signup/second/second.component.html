@@ -1,6 +1,18 @@
 <form class="container" (ngSubmit)="next()" [formGroup]="form">
+  <label class="form-label">Economic</label>
+  <input class="form-range" type="range" formControlName="economic"
+    [ngClass]="form.get('economic')?.invalid ? 'is-invalid' : 'is-valid'" min="0" max="100">
+  <label class="form-label">Diplomatic</label>
+  <input class="form-range" type="range" formControlName="diplomatic"
+    [ngClass]="form.get('diplomatic')?.invalid ? 'is-invalid' : 'is-valid'" min="0" max="100">
+  <label class="form-label">Civil</label>
+  <input class="form-range" type="range" formControlName="civil"
+    [ngClass]="form.get('civil')?.invalid ? 'is-invalid' : 'is-valid'" min="0" max="100">
+  <label class="form-label">Society</label>
+  <input class="form-range" type="range" formControlName="society"
+    [ngClass]="form.get('society')?.invalid ? 'is-invalid' : 'is-valid'" min="0" max="100">
   <div class="row">
     <button class="btn btn-primary col m-2" (click)="back()">Back</button>
-    <button class="btn btn-primary col m-2" [disabled]="form.invalid">Next</button>
+    <button class="btn btn-primary col m-2" [disabled]="form.invalid || form.pristine">Next</button>
   </div>
 </form>
