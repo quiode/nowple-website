@@ -17,4 +17,13 @@
       </div>
     </div>
   </div>
+  <div class="row" id="newMatch">
+    <div class="col fs-1 text-center border border-danger p-2 bg-danger" (click)="onFindMatch()">
+      <span class="hover" *ngIf="!findingMatch">Find a new match</span>
+      <div *ngIf="findingMatch" class="spinner-border text-dark" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
+  <app-message *ngFor="let chat of chats"></app-message>
 </div>
