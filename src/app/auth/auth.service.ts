@@ -4,6 +4,7 @@ import { BehaviorSubject, catchError, firstValueFrom } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { SignUpData } from './signup/signup.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ import { SignUpData } from './signup/signup.service';
 export class AuthService {
   private readonly _isLoggedIn = new BehaviorSubject(false);
   private refreshTokenEvent = new EventEmitter<void>();
-  constructor(private httpClient: HttpClient, private jwtService: JwtHelperService) {
+  constructor(private httpClient: HttpClient, private jwtService: JwtHelperService, private router: Router) {
     const token = this.getToken();
     const expired = this.jwtService.isTokenExpired(token);
     if (!expired) {
@@ -40,6 +41,13 @@ export class AuthService {
         this._isLoggedIn.next(false);
       }
       );
+    });
+
+    // automatic logout
+    this._isLoggedIn.subscribe(loggedIn => {
+      if (!loggedIn) {
+        this.router.navigate(['']);
+      }
     });
   }
 
