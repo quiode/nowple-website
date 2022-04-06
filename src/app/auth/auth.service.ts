@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, lastValueFrom, Observable } from 'rxjs';
+import { BehaviorSubject, catchError, firstValueFrom } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { SignUpData } from './signup/signup.service';
@@ -29,7 +29,7 @@ export class AuthService {
           this._isLoggedIn.next(true);
           const expirationDate = this.jwtService.getTokenExpirationDate(token);
           if (expirationDate) {
-            const timeToExpire = expirationDate.getTime() - Date.now();
+            const timeToExpire = expirationDate.getTime() - Date.now() - 5000;
             setTimeout(() => {
               this.refreshTokenEvent.emit();
             }, timeToExpire);
@@ -93,10 +93,20 @@ export class AuthService {
   }
 
   async refreshToken(token: string): Promise<string> {
-    const response = this.httpClient.post<string>(environment.backendUrl + '/auth/refresh', { token })
-    const result = await lastValueFrom(response);
-    this.setToken(result);
-    return result;
+    return new Promise(
+      (resolve, reject) => {
+        const response = this.httpClient.post(environment.backendUrl + '/auth/refresh', {}, { responseType: 'text' }).pipe(
+          catchError(err => {
+            reject(err);
+            return '';
+          })
+        ).subscribe(
+          (newToken: string) => {
+            resolve(newToken);
+          }
+        );
+      }
+    )
   }
 
   logout(): void {
@@ -150,5 +160,14 @@ export class AuthService {
     } else {
       return Promise.reject('Data not complete');
     }
+  }
+
+  getUserId(): string {
+    const token = this.getToken();
+    if (token) {
+      const tokenData = this.jwtService.decodeToken(token);
+      return tokenData.sub;
+    }
+    return '';
   }
 }

@@ -28,7 +28,7 @@ const routes: Routes = [
   },
   { path: 'chat', component: ChatComponent, canActivate: [AuthGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
   { path: '**', component: NotFoundComponent }
 ];
 

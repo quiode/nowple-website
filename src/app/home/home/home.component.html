@@ -1,1 +1,20 @@
-<p>home works!</p>
+<div class="container-fluid">
+  <div class="row bg-primary" style="position: fixed;width: inherit;">
+    <div class="col">
+      <div style="display: flex;height: 100%;width: 100%;align-content: center;align-items: center;">
+        <img class="img-fuild m-2 hover"
+          src="https://www.whatsappimages.in/wp-content/uploads/2020/05/Boys-Profile-Images-2.jpg"
+          (click)="onProfile()">
+      </div>
+    </div>
+    <!-- <div class="col fs-1 text-center" *ngIf="windowWidth > 250">
+      Nowple
+    </div> -->
+    <div class="col me-4">
+      <div
+        style="display: flex;height: 100%;width: 100%;align-content: center;align-items: center;flex-direction: row-reverse;">
+        <i class="bi bi-box-arrow-right hover" style="font-size: 2.5em;" (click)="onLogout()"></i>
+      </div>
+    </div>
+  </div>
+</div>

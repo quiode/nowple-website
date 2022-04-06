@@ -8,7 +8,7 @@ import * as bootstrap from 'bootstrap';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'nowple';
+  title = 'Nowple';
   modalOptions: ModalState = { show: false, options: { cancelText: '', confirmText: '', message: '', title: '', type: 'info' } };
   @ViewChild('modalButton') modalButton?: ElementRef<HTMLButtonElement>;
 
