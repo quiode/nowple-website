@@ -1,6 +1,14 @@
 <form class="container" (ngSubmit)="submit()" [formGroup]="form">
   <div class="row">
-    <button class="btn btn-primary col m-2" (click)="back()">Back</button>
-    <button class="btn btn-primary col m-2" [disabled]="form.invalid">Submit</button>
+    <div class="col">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" name="darkmode" formControlName="darkmode" role="switch">
+        <label class="form-label" for="darkmode">Darkmode</label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <button class="btn btn-secondary col m-2" (click)="back()">Back</button>
+    <button class="btn btn-primary col m-2" [disabled]="form.invalid || form.pristine">Submit</button>
   </div>
 </form>

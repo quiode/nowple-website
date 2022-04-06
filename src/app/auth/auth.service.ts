@@ -89,6 +89,29 @@ export class AuthService {
   }
 
   async signUp(signUp: SignUpData) {
-    // TODO
+    if (signUp.data1 && signUp.data2 && signUp.data3) {
+      const backendData = {
+        username: signUp.data1.username,
+        password: signUp.data1.password,
+        settings: {
+          isDarkMode: signUp.data3.darkmode,
+        },
+        interests: {
+          economic: signUp.data2.economic,
+          diplomatic: signUp.data2.diplomatic,
+          civil: signUp.data2.civil,
+          society: signUp.data2.society,
+        }
+      }
+
+      const response = this.httpClient.post(environment.backendUrl + '/auth/register', backendData, { responseType: 'text' });
+      const token = await lastValueFrom(response);
+      this.setToken(token);
+      this._isLoggedIn.next(true);
+      this.refreshTokenEvent.emit();
+      return Promise.resolve();
+    } else {
+      return Promise.reject('Data not complete');
+    }
   }
 }

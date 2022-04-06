@@ -1,4 +1,5 @@
 <form class="container" (ngSubmit)="next()" [formGroup]="form">
+  https://github.com/8values/8values.github.io
   <label class="form-label">Economic</label>
   <input class="form-range" type="range" formControlName="economic"
     [ngClass]="form.get('economic')?.invalid ? 'is-invalid' : 'is-valid'" min="0" max="100">
@@ -12,7 +13,7 @@
   <input class="form-range" type="range" formControlName="society"
     [ngClass]="form.get('society')?.invalid ? 'is-invalid' : 'is-valid'" min="0" max="100">
   <div class="row">
-    <button class="btn btn-primary col m-2" (click)="back()">Back</button>
+    <button class="btn btn-secondary col m-2" (click)="back()">Back</button>
     <button class="btn btn-primary col m-2" [disabled]="form.invalid || form.pristine">Next</button>
   </div>
 </form>

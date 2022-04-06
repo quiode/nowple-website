@@ -20,6 +20,7 @@ export interface FormData2 {
 }
 
 export interface FormData3 {
+  darkmode: boolean;
 }
 
 @Injectable({
@@ -31,21 +32,23 @@ export class SignupService {
   constructor(private authService: AuthService) {
   }
 
-  submit() {
+  async submit() {
     if (this.signUpData.data1 && this.signUpData.data2 && this.signUpData.data3) {
-      this.authService.signUp(this.signUpData);
+      return this.authService.signUp(this.signUpData);
+    } else {
+      return Promise.reject('Data not complete');
     }
   }
 
   set1(data: FormData1) {
-    this.signUpData = { data1: data };
+    this.signUpData = { ...this.signUpData, data1: data };
   }
 
   set2(data: FormData2) {
-    this.signUpData = { data2: data };
+    this.signUpData = { ...this.signUpData, data2: data };
   }
 
   set3(data: FormData3) {
-    this.signUpData = { data3: data };
+    this.signUpData = { ...this.signUpData, data3: data };
   }
 }

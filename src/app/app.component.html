@@ -10,7 +10,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel"
-          [ngClass]="modalOptions.options.type == 'alert' ? 'text-danger' : modalOptions.options.type == 'info' ? 'text-info' : ''">
+          [ngClass]="modalOptions.options.type == 'alert' ? 'text-danger' : modalOptions.options.type == 'info' ? 'text-info' : modalOptions.options.type == 'success' ? 'text-success' : ''">
           {{ modalOptions.options.title }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
@@ -19,9 +19,10 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-          [style]="{display: modalOptions.options.cancelText != undefined ? 'initial' : 'none'}">{{ modalOptions.options.cancelText }}</button>
-        <button type="button" class="btn btn-primary"
-          data-bs-dismiss="modal">{{ modalOptions.options.confirmText }}</button>
+          [style]="{display: modalOptions.options.cancelText != undefined ? 'initial' : 'none'}">{{
+          modalOptions.options.cancelText }}</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{ modalOptions.options.confirmText
+          }}</button>
       </div>
     </div>
   </div>

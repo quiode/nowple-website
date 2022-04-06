@@ -6,7 +6,7 @@ export interface ModalOptions {
   message: string;
   confirmText: string;
   cancelText?: string;
-  type: 'alert' | 'info';
+  type: 'alert' | 'info' | 'success';
   centered?: boolean;
 }
 

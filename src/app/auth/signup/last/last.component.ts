@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SignupService } from '../signup.service';
+import { ModalService } from '../../../shared/modal.service';
 
 @Component({
   selector: 'app-last',
@@ -9,9 +10,11 @@ import { SignupService } from '../signup.service';
   styleUrls: ['./last.component.scss']
 })
 export class LastComponent implements OnInit {
-  form = new FormGroup({});
+  form = new FormGroup({
+    darkmode: new FormControl(this.signupService.signUpData.data3?.darkmode || false)
+  });
 
-  constructor(private router: Router, private route: ActivatedRoute, private signupService: SignupService) { }
+  constructor(private router: Router, private route: ActivatedRoute, private signupService: SignupService, private modalService: ModalService) { }
 
   ngOnInit(): void {
     if (!this.signupService.signUpData.data2) {
@@ -20,7 +23,26 @@ export class LastComponent implements OnInit {
   }
 
   submit() {
-    // TODO
+    if (this.form.valid && this.form.touched) {
+      const darkmode = this.form.get('darkmode')?.value;
+
+      if (darkmode != undefined) {
+        this.signupService.set3({ darkmode });
+        this.signupService.submit().catch(err => {
+          this.modalService.show({ message: err as string, title: 'Error', confirmText: 'Ok', type: 'alert' });
+        }).then(
+          () => {
+            this.router.navigate(['']);
+            this.modalService.show({
+              message: 'Your account has been created!',
+              title: 'Success',
+              confirmText: 'Ok',
+              type: 'success'
+            })
+          }
+        );
+      }
+    }
   }
 
   back() {
