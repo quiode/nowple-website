@@ -63,6 +63,7 @@ export class AuthService {
     } else {
       this.setToken(result);
       this._isLoggedIn.next(true);
+      this.refreshTokenEvent.emit();
       return true;
     }
   }
@@ -77,7 +78,7 @@ export class AuthService {
   }
 
   async refreshToken(token: string): Promise<string> {
-    const response = this.httpClient.post<string>('/api/refresh', { token })
+    const response = this.httpClient.post<string>(environment.backendUrl + '/auth/refresh', { token })
     const result = await lastValueFrom(response);
     this.setToken(result);
     return result;
