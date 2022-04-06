@@ -20,6 +20,9 @@ export class LastComponent implements OnInit {
     if (!this.signupService.signUpData.data2) {
       this.router.navigate(['../2'], { relativeTo: this.route });
     }
+    if (this.signupService.signUpData.data3) {
+      this.form.markAllAsTouched();
+    }
   }
 
   submit() {
@@ -28,9 +31,7 @@ export class LastComponent implements OnInit {
 
       if (darkmode != undefined) {
         this.signupService.set3({ darkmode });
-        this.signupService.submit().catch(err => {
-          this.modalService.show({ message: err as string, title: 'Error', confirmText: 'Ok', type: 'alert' });
-        }).then(
+        this.signupService.submit().then(
           () => {
             this.router.navigate(['']);
             this.modalService.show({
@@ -39,6 +40,10 @@ export class LastComponent implements OnInit {
               confirmText: 'Ok',
               type: 'success'
             })
+          },
+          err => {
+            this.router.navigate(['../1'], { relativeTo: this.route });
+            this.modalService.show({ message: err as string, title: 'Error', confirmText: 'Ok', type: 'alert' });
           }
         );
       }

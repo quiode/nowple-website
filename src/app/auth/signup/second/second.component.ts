@@ -23,6 +23,9 @@ export class SecondComponent implements OnInit {
     if (!this.signupService.signUpData.data1) {
       this.router.navigate(['../1'], { relativeTo: this.route });
     }
+    if (this.signupService.signUpData.data2) {
+      this.form.markAllAsTouched();
+    }
   }
 
   next() {

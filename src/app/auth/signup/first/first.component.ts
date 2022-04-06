@@ -17,6 +17,9 @@ export class FirstComponent implements OnInit {
   constructor(private signupService: SignupService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    if (this.signupService.signUpData.data1) {
+      this.form.markAllAsTouched();
+    }
   }
 
   next() {

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { BehaviorSubject, firstValueFrom, lastValueFrom } from 'rxjs';
+import { BehaviorSubject, catchError, lastValueFrom, Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { SignUpData } from './signup/signup.service';
@@ -55,17 +55,32 @@ export class AuthService {
    * tries to log the user in and returns true if successful
    */
   async login(username: string, password: string): Promise<boolean> {
-    const response = this.httpClient.post(environment.backendUrl + '/auth/login', { username, password }, { responseType: 'text' });
-    const result = await lastValueFrom(response);
-    const expired = this.jwtService.isTokenExpired(result);
-    if (expired) {
-      return false;
-    } else {
-      this.setToken(result);
-      this._isLoggedIn.next(true);
-      this.refreshTokenEvent.emit();
-      return true;
-    }
+    return new Promise(
+      (resolve, reject) => {
+        this.httpClient.post(environment.backendUrl + '/auth/login', { username, password }, { responseType: 'text' }).pipe(
+          catchError(
+            (error) => {
+              this.setToken('');
+              this._isLoggedIn.next(false);
+              reject(error);
+              return '';
+            }
+          )
+        ).subscribe(
+          (token: string) => {
+            const expired = this.jwtService.isTokenExpired(token);
+            if (expired) {
+              reject('Token expired');
+            } else {
+              this.setToken(token);
+              this._isLoggedIn.next(true);
+              this.refreshTokenEvent.emit();
+              resolve(true);
+            }
+          }
+        );
+      }
+    )
   }
 
   getToken(): string {
@@ -105,12 +120,33 @@ export class AuthService {
         }
       }
 
-      const response = this.httpClient.post(environment.backendUrl + '/auth/register', backendData, { responseType: 'text' });
-      const token = await lastValueFrom(response);
-      this.setToken(token);
-      this._isLoggedIn.next(true);
-      this.refreshTokenEvent.emit();
-      return Promise.resolve();
+      return new Promise(
+        (resolve, reject) => {
+          this.httpClient.post(environment.backendUrl + '/auth/register', backendData, { responseType: 'text' }).pipe(
+            catchError(
+              (error) => {
+                this.setToken('');
+                this._isLoggedIn.next(false);
+                const errorParsed = JSON.parse(error.error);
+                reject(errorParsed.message);
+                return '';
+              }
+            )
+          ).subscribe(
+            (token: string) => {
+              const expired = this.jwtService.isTokenExpired(token);
+              if (expired) {
+                reject('Token expired');
+              } else {
+                this.setToken(token);
+                this._isLoggedIn.next(true);
+                this.refreshTokenEvent.emit();
+                resolve(true);
+              }
+            }
+          );
+        }
+      )
     } else {
       return Promise.reject('Data not complete');
     }
