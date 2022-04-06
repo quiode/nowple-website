@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SignupService } from '../signup.service';
+import { ModalService } from '../../../shared/modal.service';
 
 @Component({
   selector: 'app-second',
@@ -16,7 +17,7 @@ export class SecondComponent implements OnInit {
     society: new FormControl(this.signupService.signUpData.data2?.society || 50, [Validators.min(0), Validators.max(100)]),
   });
 
-  constructor(private signupService: SignupService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private signupService: SignupService, private router: Router, private route: ActivatedRoute, private modalService: ModalService) { }
 
   ngOnInit(): void {
     if (!this.signupService.signUpData.data1) {
@@ -41,5 +42,15 @@ export class SecondComponent implements OnInit {
 
   back() {
     this.router.navigate(['../1'], { relativeTo: this.route });
+  }
+
+  showPoliticlaInfo() {
+    this.modalService.show({
+      title: 'Political Info',
+      message: `You can take the
+        test here: https://8values.github.io/`,
+      confirmText: 'Ok',
+      type: 'info'
+    });
   }
 }
