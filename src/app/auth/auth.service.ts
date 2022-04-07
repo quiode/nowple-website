@@ -18,7 +18,7 @@ export class AuthService {
     const expired = this.jwtService.isTokenExpired(token);
     if (!expired) {
       this._isLoggedIn.next(true);
-      this.refreshTokenEvent.emit(); $
+      this.refreshTokenEvent.emit();
       this.setToken(token);
     } else {
       this.setToken('');

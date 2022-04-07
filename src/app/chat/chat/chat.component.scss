@@ -1,0 +1,24 @@
+img {
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  width: 3em;
+}
+
+.top-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-content: center;
+  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+  cursor: pointer;
+}
+
+.bottom-icon {
+  justify-content: center;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}

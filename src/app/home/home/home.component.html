@@ -5,10 +5,13 @@
         <img class="img-fuild m-2 hover" [src]="profilePicture" (click)="onProfile()">
       </div>
     </div>
-    <!-- <div class="col fs-1 text-center" *ngIf="windowWidth > 250">
-      Nowple
-    </div> -->
-    <div class="col me-4">
+    <div class="col">
+      <div class="fs-1"
+        style="display: flex;height: 100%;width: 100%;align-content: center;align-items: center;justify-content: center;">
+        <span>Nowple</span>
+      </div>
+    </div>
+    <div class="col">
       <div
         style="display: flex;height: 100%;width: 100%;align-content: center;align-items: center;flex-direction: row-reverse;">
         <i class="bi bi-gear hover" style="font-size: 2.5em;" (click)="onSettings()"></i>

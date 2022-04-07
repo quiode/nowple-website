@@ -1,1 +1,43 @@
-<p>message works!</p>
+<div class="container-fluid">
+  <div #top1 class="row bg-primary" style="position: fixed;width: inherit;">
+    <div class="col me-4">
+      <div class="top-container">
+        <i class="bi bi-arrow-return-left" style="font-size: 2.5em;" (click)="onBack()"></i>
+      </div>
+    </div>
+    <div class="col">
+      <div class="fs-3"
+        style="display: flex;height: 100%;width: 100%;align-content: center;align-items: center;justify-content: center;word-wrap: anywhere;">
+        <span>{{ userName }}</span>
+      </div>
+    </div>
+    <div class="col">
+      <div class="top-container" style="justify-content: flex-start;">
+        <img class="img-fuild m-2 hover" [src]="profilePicture" (click)="onProfile()">
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid" [ngStyle]="{top: top1.offsetHeight}"></div>
+
+  <div class="row my-2 pt-2 border-top border-2" style="position: fixed;width:inherit;bottom: 0;font-size: 2em;">
+    <div class="col-2">
+      <div class="top-container bottom-icon" style="justify-content: center;">
+        <i class="bi bi-plus-circle text-secondary"></i>
+      </div>
+    </div>
+    <div class="border-start w-0 p-0 m-0" style="width: 0;"></div>
+    <div class="col">
+      <div class="top-container">
+        <input type="text" class="form-control" placeholder="Type a message..." [(ngModel)]="message"
+          (keyup.enter)="onSend()">
+      </div>
+    </div>
+    <div class="border-start w-0 p-0 m-0" style="width: 0;"></div>
+    <div class="col-2">
+      <div class="top-container bottom-icon">
+        <i class="bi bi-send text-primary" (click)="onSend()"></i>
+      </div>
+    </div>
+  </div>
+</div>
