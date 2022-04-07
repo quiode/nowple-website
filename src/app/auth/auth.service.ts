@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, firstValueFrom, tap } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -18,6 +18,8 @@ export class AuthService {
     const expired = this.jwtService.isTokenExpired(token);
     if (!expired) {
       this._isLoggedIn.next(true);
+      this.refreshTokenEvent.emit(); $
+      this.setToken(token);
     } else {
       this.setToken('');
       this._isLoggedIn.next(false);

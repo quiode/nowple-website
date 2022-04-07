@@ -11,7 +11,7 @@
     <div class="col me-4">
       <div
         style="display: flex;height: 100%;width: 100%;align-content: center;align-items: center;flex-direction: row-reverse;">
-        <i class="bi bi-box-arrow-right hover" style="font-size: 2.5em;" (click)="onLogout()"></i>
+        <i class="bi bi-gear hover" style="font-size: 2.5em;" (click)="onSettings()"></i>
       </div>
     </div>
   </div>
@@ -24,6 +24,6 @@
     </div>
   </div>
   <div #container class="row" style="position: relative;">
-    <app-message *ngFor="let chat of chats" [chat]="chat"></app-message>
+    <app-message *ngFor="let chat of chats" [chat]="chat" class="hover-color"></app-message>
   </div>
 </div>

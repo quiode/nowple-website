@@ -25,6 +25,7 @@ export interface Message {
   id: number,
   message: String,
   time: Date
+  isTopic: boolean,
   sender?: User,
   receiver?: User,
 }

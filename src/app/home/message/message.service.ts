@@ -12,11 +12,7 @@ export class MessageService {
   }
 
   async getPublicProfilePicture(id: string): Promise<string> {
-    const response = this.httpClient.get(environment.backendUrl + '/user/profilePicture/' + id, { responseType: 'blob' }).pipe(
-      tap((val) => {
-        console.log(val);
-      }),
-    );
+    const response = this.httpClient.get(environment.backendUrl + '/user/profilePicture/' + id, { responseType: 'blob' });
     const data = await firstValueFrom(response);
 
     return URL.createObjectURL(data);

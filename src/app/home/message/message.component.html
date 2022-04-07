@@ -1,10 +1,10 @@
-<div class="row m-1 border-top border-bottom">
+<div class="row m-1 border-top border-bottom" style="flex-wrap: nowrap;word-wrap: anywhere;cursor: pointer;">
   <div class="col-2">
     <div style="display: flex;height: 100%;width: 100%;align-content: center;align-items: center;">
       <img class="img-fuild m-2" [src]="profilePicture" (click)="onProfile()">
     </div>
   </div>
-  <div class="col mx-4">
+  <div class="col mx-4" (click)="onChat()">
     <div style="display: flex;height: 100%;width: 100%;align-content: center;align-items: center;">
       <div>
         <div class="row">

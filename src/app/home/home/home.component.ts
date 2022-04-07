@@ -51,9 +51,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate(['profile', this.authService.getUserId()]);
   }
 
-  onLogout() {
-    this.authService.logout();
-    this.router.navigate(['']);
+  onSettings() {
+    this.router.navigate(['settings']);
   }
 
   onFindMatch() {

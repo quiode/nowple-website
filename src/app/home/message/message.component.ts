@@ -26,4 +26,8 @@ export class MessageComponent implements OnInit {
   onProfile() {
     this.router.navigate(['/profile', this.chat?.user.id]);
   }
+
+  onChat() {
+    this.router.navigate(['/chat', this.chat?.user.id]);
+  }
 }
