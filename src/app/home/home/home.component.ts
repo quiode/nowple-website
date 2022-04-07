@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.chats = chats;
     });
     this.homeService.getProfilePicture().then(profilePicture => {
-      this.profilePicture = this.sanitizer.bypassSecurityTrustResourceUrl(profilePicture);
+      this.profilePicture = this.sanitizer.bypassSecurityTrustUrl(profilePicture);
     });
 
     this.observer = new ResizeObserver((entries) => {

@@ -23,7 +23,7 @@
       </div>
     </div>
   </div>
-  <div #container class="containiner-fluid" style="position: relative;">
-    <app-message *ngFor="let chat of chats"></app-message>
+  <div #container class="row" style="position: relative;">
+    <app-message *ngFor="let chat of chats" [chat]="chat"></app-message>
   </div>
 </div>
