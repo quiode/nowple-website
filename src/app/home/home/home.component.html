@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <div class="row bg-primary" style="position: fixed;width: inherit;">
+  <div #top1 class="row bg-primary" style="position: fixed;width: inherit;">
     <div class="col">
       <div style="display: flex;height: 100%;width: 100%;align-content: center;align-items: center;">
         <img class="img-fuild m-2 hover" [src]="profilePicture" (click)="onProfile()">
@@ -15,13 +15,15 @@
       </div>
     </div>
   </div>
-  <div class="row" id="newMatch">
+  <div #top2 class="row" id="newMatch" style="position: fixed;width: inherit;">
     <div class="col fs-1 text-center border border-danger p-2 bg-danger" (click)="onFindMatch()">
-      <span class="hover" *ngIf="!findingMatch">Find a new match</span>
+      <span class="hover" *ngIf="!findingMatch">Find a new chat</span>
       <div *ngIf="findingMatch" class="spinner-border text-dark" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
     </div>
   </div>
-  <app-message *ngFor="let chat of chats"></app-message>
+  <div #container class="containiner-fluid" style="position: relative;">
+    <app-message *ngFor="let chat of chats"></app-message>
+  </div>
 </div>

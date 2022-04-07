@@ -11,6 +11,7 @@ export interface Chat { user: User, lastMessage?: Message }
 export interface User {
   id: string,
   username: string,
+  profilePicture: string,
   settings?: Settings,
   interests?: Interests,
   sentMessages?: Message[],
