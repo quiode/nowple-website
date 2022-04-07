@@ -1,10 +1,11 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { BehaviorSubject, catchError, firstValueFrom } from 'rxjs';
+import { BehaviorSubject, catchError, firstValueFrom, tap } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { SignUpData } from './signup/signup.service';
 import { Router } from '@angular/router';
+import { ModalService } from '../shared/modal.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 export class AuthService {
   private readonly _isLoggedIn = new BehaviorSubject(false);
   private refreshTokenEvent = new EventEmitter<void>();
-  constructor(private httpClient: HttpClient, private jwtService: JwtHelperService, private router: Router) {
+  constructor(private httpClient: HttpClient, private jwtService: JwtHelperService, private router: Router, private modalService: ModalService) {
     const token = this.getToken();
     const expired = this.jwtService.isTokenExpired(token);
     if (!expired) {
@@ -122,8 +123,8 @@ export class AuthService {
     this._isLoggedIn.next(false);
   }
 
-  async signUp(signUp: SignUpData) {
-    if (signUp.data1 && signUp.data2 && signUp.data3) {
+  async signUp(signUp: SignUpData, profilePicture: File) {
+    if (signUp.data1 && signUp.data2 && signUp.data3 && profilePicture) {
       const backendData = {
         username: signUp.data1.username,
         password: signUp.data1.password,
@@ -151,7 +152,7 @@ export class AuthService {
               }
             )
           ).subscribe(
-            (token: string) => {
+            async (token: string) => {
               const expired = this.jwtService.isTokenExpired(token);
               if (expired) {
                 reject('Token expired');
@@ -159,6 +160,16 @@ export class AuthService {
                 this.setToken(token);
                 this._isLoggedIn.next(true);
                 this.refreshTokenEvent.emit();
+                // this.setProfilePicture(profilePicture).pipe(catchError(err => {
+                //   this.modalService.show({
+                //     title: 'Error',
+                //     message: "Couldn't upload profile picture",
+                //     type: 'alert',
+                //     confirmText: 'Ok'
+                //   });
+                //   return '';
+                // }));
+                const value = await firstValueFrom(this.setProfilePicture(profilePicture))
                 resolve(true);
               }
             }
@@ -177,5 +188,12 @@ export class AuthService {
       return tokenData.sub;
     }
     return '';
+  }
+
+  setProfilePicture(profilePicture: File) {
+    const data = new FormData();
+    data.append('profilePicture', profilePicture);
+    const response = this.httpClient.post(environment.backendUrl + '/user/profilePicture', data, { responseType: 'text' });
+    return response;
   }
 }

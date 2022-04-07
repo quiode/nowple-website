@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SignupService } from '../signup.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterStateSnapshot } from '@angular/router';
+import { ModalService } from '../../../shared/modal.service';
 
 @Component({
   selector: 'app-first',
@@ -11,10 +12,11 @@ import { ActivatedRoute, Router, RouterStateSnapshot } from '@angular/router';
 export class FirstComponent implements OnInit {
   form = new FormGroup({
     username: new FormControl(this.signupService.signUpData.data1?.username || '', [Validators.required]),
-    password: new FormControl(this.signupService.signUpData.data1?.password || '', [Validators.required, Validators.minLength(5)])
+    password: new FormControl(this.signupService.signUpData.data1?.password || '', [Validators.required, Validators.minLength(5)]),
+    profilePicture: new FormControl(this.signupService.getProfilePicture()?.name || '', [Validators.required])
   });
 
-  constructor(private signupService: SignupService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private signupService: SignupService, private router: Router, private route: ActivatedRoute, private modalService: ModalService) { }
 
   ngOnInit(): void {
     if (this.signupService.signUpData.data1) {
@@ -33,4 +35,42 @@ export class FirstComponent implements OnInit {
       }
     }
   }
+
+  fileSelect(e: Event) {
+    const target = e.target as HTMLInputElement;
+    const files = target.files;
+    if (files && files.length == 1) {
+      const file = files[0];
+      if (file.type.startsWith('image/')) {
+        if (file.size <= 1000000) {
+          this.signupService.setProfilePicture(file);
+          return;
+        } else {
+          this.modalService.show({
+            title: 'Error',
+            message: 'The file is too big',
+            type: 'alert',
+            confirmText: 'Ok'
+          })
+        }
+      } else {
+        this.modalService.show({
+          title: 'Error',
+          message: 'Wrong image type',
+          type: 'alert',
+          confirmText: 'Ok'
+        })
+      }
+    } else {
+      this.modalService.show({
+        title: 'Error',
+        message: 'Too many files or no file selected',
+        type: 'alert',
+        confirmText: 'Ok'
+      })
+    }
+
+    target.value = '';
+  }
 }
+

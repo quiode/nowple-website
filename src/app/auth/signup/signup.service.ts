@@ -28,13 +28,14 @@ export interface FormData3 {
 })
 export class SignupService {
   signUpData: SignUpData = {};
+  private profilePicture?: File;
 
   constructor(private authService: AuthService) {
   }
 
   async submit() {
-    if (this.signUpData.data1 && this.signUpData.data2 && this.signUpData.data3) {
-      return this.authService.signUp(this.signUpData);
+    if (this.signUpData.data1 && this.signUpData.data2 && this.signUpData.data3 && this.profilePicture) {
+      return this.authService.signUp(this.signUpData, this.profilePicture);
     } else {
       return Promise.reject('Data not complete');
     }
@@ -50,5 +51,13 @@ export class SignupService {
 
   set3(data: FormData3) {
     this.signUpData = { ...this.signUpData, data3: data };
+  }
+
+  setProfilePicture(file: File) {
+    this.profilePicture = file;
+  }
+
+  getProfilePicture() {
+    return this.profilePicture;
   }
 }

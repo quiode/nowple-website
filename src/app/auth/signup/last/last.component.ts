@@ -34,12 +34,6 @@ export class LastComponent implements OnInit {
         this.signupService.submit().then(
           () => {
             this.router.navigate(['']);
-            this.modalService.show({
-              message: 'Your account has been created!',
-              title: 'Success',
-              confirmText: 'Ok',
-              type: 'success'
-            })
           },
           err => {
             this.router.navigate(['../1'], { relativeTo: this.route });

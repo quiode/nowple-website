@@ -2,9 +2,7 @@
   <div class="row bg-primary" style="position: fixed;width: inherit;">
     <div class="col">
       <div style="display: flex;height: 100%;width: 100%;align-content: center;align-items: center;">
-        <img class="img-fuild m-2 hover"
-          src="https://www.whatsappimages.in/wp-content/uploads/2020/05/Boys-Profile-Images-2.jpg"
-          (click)="onProfile()">
+        <img class="img-fuild m-2 hover" [src]="profilePicture" (click)="onProfile()">
       </div>
     </div>
     <!-- <div class="col fs-1 text-center" *ngIf="windowWidth > 250">
