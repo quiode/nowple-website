@@ -23,20 +23,26 @@
   <div class="row my-2 pt-2 border-top border-2" style="position: fixed;width:inherit;bottom: 0;font-size: 2em;">
     <div class="col-2">
       <div class="top-container bottom-icon" style="justify-content: center;">
-        <i class="bi bi-plus-circle text-secondary"></i>
+        <i *ngIf="!generatingTopic" class="bi bi-plus-circle text-secondary" (click)="onNewTopic()"></i>
+        <div *ngIf="generatingTopic" class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
       </div>
     </div>
     <div class="border-start w-0 p-0 m-0" style="width: 0;"></div>
     <div class="col">
       <div class="top-container">
-        <input type="text" class="form-control" placeholder="Type a message..." [(ngModel)]="message"
-          (keyup.enter)="onSend()">
+        <input [disabled]="sendingMessage" type="text" class="form-control" placeholder="Type a message..."
+          [(ngModel)]="message" (keyup.enter)="onSend()">
       </div>
     </div>
     <div class="border-start w-0 p-0 m-0" style="width: 0;"></div>
     <div class="col-2">
       <div class="top-container bottom-icon">
-        <i class="bi bi-send text-primary" (click)="onSend()"></i>
+        <i *ngIf="!sendingMessage" class="bi bi-send text-primary" (click)="onSend()"></i>
+        <div *ngIf="sendingMessage" class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
       </div>
     </div>
   </div>
