@@ -49,7 +49,9 @@ export class ChatComponent implements OnInit {
   onSend() {
     this.sendingMessage = true;
     this.chatService.sendMessage(this.uuid, this.message).catch(err => {
-      this.modalService.show({ message: err as string, title: 'Error', confirmText: 'Ok', type: 'alert' });
+      this.modalService.show({ message: err.error.message, title: 'Error', confirmText: 'Ok', type: 'alert' });
+      this.message = '';
+      this.sendingMessage = false;
     }).finally(() => {
       this.message = '';
       this.sendingMessage = false;
@@ -59,7 +61,8 @@ export class ChatComponent implements OnInit {
   onNewTopic() {
     this.generatingTopic = true;
     this.chatService.genTopic(this.uuid).catch(err => {
-      this.modalService.show({ message: err as string, title: 'Error', confirmText: 'Ok', type: 'alert' });
+      this.modalService.show({ message: err.error.message, title: 'Error', confirmText: 'Ok', type: 'alert' });
+      this.generatingTopic = false;
     }).finally(() => {
       this.generatingTopic = false;
     });

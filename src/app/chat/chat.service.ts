@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom, Observable, catchError } from 'rxjs';
 import { Message, User } from '../home/home.service';
 
 export interface Chat {
@@ -26,20 +26,34 @@ export class ChatService {
   }
 
   async sendMessage(id: string, message: string): Promise<void> {
-    // TODO
-    return new Promise(resolve => {
-      setInterval(() => {
-        resolve()
-      }, 2000)
+    return new Promise((resolve, reject) => {
+      this.httpClient.post<Message>(environment.backendUrl + '/messages/send/' + id, { message: message, date: new Date() }).subscribe(
+        {
+          next: (data) => {
+            console.log('data2', data);
+            resolve();
+          },
+          error: (err) => {
+            reject(err);
+          }
+        }
+      );
     })
   }
 
   async genTopic(id: string): Promise<void> {
-    // TODO
-    return new Promise(resolve => {
-      setInterval(() => {
-        resolve()
-      }, 2000)
+    return new Promise((resolve, reject) => {
+      this.httpClient.get<Message>(environment.backendUrl + '/messages/topic/' + id, {}).subscribe(
+        {
+          next: (data) => {
+            console.log('data2', data);
+            resolve();
+          },
+          error: (err) => {
+            reject(err);
+          }
+        }
+      );
     })
   }
 
