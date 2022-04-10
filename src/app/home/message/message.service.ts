@@ -12,10 +12,23 @@ export class MessageService {
   }
 
   async getPublicProfilePicture(id: string): Promise<string> {
-    const response = this.httpClient.get(environment.backendUrl + '/user/profilePicture/' + id, { responseType: 'blob' });
-    const data = await firstValueFrom(response);
-
-    return URL.createObjectURL(data);
+    return new Promise<string>((resolve, reject) => {
+      this.httpClient.get(environment.backendUrl + '/user/profilePicture/' + id, { responseType: 'blob' }).subscribe({
+        next: response => {
+          const reader = new FileReader();
+          reader.readAsDataURL(response);
+          reader.onloadend = () => {
+            resolve(reader.result as string);
+          }
+          reader.onerror = () => {
+            reject('Could not read profile picture');
+          }
+        },
+        error: err => {
+          reject(err);
+        }
+      });
+    });
   }
 
 }

@@ -70,17 +70,24 @@ export class HomeService implements OnInit {
 
   async getProfilePicture(): Promise<string> {
     // get profile picture as readstream and convert to base64
-    const response = this.httpClient.get(environment.backendUrl + '/user/profilePicture', { responseType: 'blob' });
-    const profilePicture = await firstValueFrom(response);
-    const reader = new FileReader();
-    reader.readAsDataURL(profilePicture);
+
     return new Promise<string>((resolve, reject) => {
-      reader.onloadend = () => {
-        resolve(reader.result as string);
-      }
-      reader.onerror = () => {
-        reject('Could not read profile picture');
-      }
+      this.httpClient.get(environment.backendUrl + '/user/profilePicture', { responseType: 'blob' })
+        .subscribe({
+          next: response => {
+            const reader = new FileReader();
+            reader.readAsDataURL(response);
+            reader.onloadend = () => {
+              resolve(reader.result as string);
+            }
+            reader.onerror = () => {
+              reject('Could not read profile picture');
+            }
+          },
+          error: err => {
+            reject(err);
+          }
+        })
     });
   }
 }
