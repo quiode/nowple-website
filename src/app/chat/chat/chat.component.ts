@@ -39,7 +39,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
     });
 
     this.chatService.getMessages(this.uuid).subscribe(messages => {
-      this.messages.push(...messages);
+      const filterMessages = messages.filter(m => this.messages.findIndex(m2 => m2.id === m.id && m.receiver === m2.receiver && m.sender == m2.sender) === -1);
+      this.messages.push(...filterMessages);
+      this.messages = this.messages.sort((a, b) => (new Date(a.time)).getTime() - (new Date(b.time)).getTime());
     });
 
     this.observer = new ResizeObserver((entries) => {

@@ -78,7 +78,8 @@ export class ChatService {
       };
       this.chats.push(chat);
       chat.seeConnection.subscribe(data => {
-        chat.messages.push(...this.sseStringToMessages(data));
+        const dataObject = this.sseStringToMessages(data).filter(m => chat.messages.findIndex(m2 => m2.id === m.id && m.receiver === m2.receiver && m.sender == m2.sender) === -1);
+        chat.messages.push(...dataObject);
       });
       return this.sseConnectionToMessages(sse);
     }
