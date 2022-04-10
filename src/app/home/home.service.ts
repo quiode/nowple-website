@@ -26,10 +26,10 @@ export interface User {
 export interface Message {
   id: number,
   message: String,
-  time: Date
+  time: string
   isTopic: boolean,
-  sender?: User,
-  receiver?: User,
+  sender: { username: string, id: string },
+  receiver: { username: string, id: string }
 }
 @Injectable({
   providedIn: 'root'

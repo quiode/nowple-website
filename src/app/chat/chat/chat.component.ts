@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
 import { Router, RouterState, ActivatedRoute, RouterStateSnapshot } from '@angular/router';
 import { HomeService, Message } from '../../home/home.service';
 import { MessageService } from '../../home/message/message.service';
@@ -11,7 +11,10 @@ import { ModalService } from '../../shared/modal.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewInit {
+  @ViewChild('top') top?: ElementRef<HTMLDivElement>;
+  @ViewChild('bottom') bottom?: ElementRef<HTMLDivElement>;
+  @ViewChild('container') container?: ElementRef<HTMLDivElement>;
   messages: Message[] = [];
   sendingMessage = false;
   generatingTopic = false;
@@ -19,8 +22,10 @@ export class ChatComponent implements OnInit {
   uuid: string;
   userName: string = '';
   profilePicture: SafeUrl = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
+  observer?: ResizeObserver;
+  bottomObserver?: ResizeObserver;
 
-  constructor(private router: Router, private route: ActivatedRoute, private messageService: MessageService, private sanitizer: DomSanitizer, private chatService: ChatService, private modalService: ModalService) {
+  constructor(private router: Router, private route: ActivatedRoute, private messageService: MessageService, private sanitizer: DomSanitizer, private chatService: ChatService, private modalService: ModalService, private renderer: Renderer2) {
     this.uuid = this.route.snapshot.paramMap.get('id') || '';
   }
 
@@ -33,9 +38,42 @@ export class ChatComponent implements OnInit {
       this.userName = userName;
     });
 
-    this.chatService.getChat(this.uuid).subscribe(chat => {
-      this.messages.push(...chat.messages);
+    this.chatService.getMessages(this.uuid).subscribe(messages => {
+      this.messages.push(...messages);
     });
+
+    this.observer = new ResizeObserver((entries) => {
+      if (this.container && this.bottom && this.top) {
+        this.renderer.setStyle(this.container?.nativeElement, 'height', `${window.innerHeight - this.bottom.nativeElement.offsetHeight - this.top.nativeElement.offsetHeight}px`);
+      }
+      this.scrollToBottom();
+    })
+
+    this.bottomObserver = new ResizeObserver((entries) => {
+      let space = 0;
+      entries.forEach((entry) => {
+        space += entry.borderBoxSize[0].blockSize;
+      })
+      if (this.container && space > 0) {
+        this.renderer.setStyle(this.container?.nativeElement, 'bottom', `${space}px`);
+      }
+    });
+  }
+
+  ngAfterViewInit(): void {
+    if (this.top && this.bottom && this.observer) {
+      this.observer.observe(this.bottom.nativeElement);
+      this.observer.observe(this.top.nativeElement);
+    }
+
+    if (this.bottom && this.bottomObserver) {
+      this.bottomObserver.observe(this.bottom.nativeElement);
+    }
+
+    if (this.container && this.bottom && this.top) {
+      this.renderer.setStyle(this.container?.nativeElement, 'height', `${window.innerHeight - this.top.nativeElement.offsetHeight - this.bottom.nativeElement.offsetHeight}px`);
+      this.renderer.setStyle(this.container?.nativeElement, 'bottom', `${this.bottom.nativeElement.offsetHeight}px`);
+    }
   }
 
   onBack() {
@@ -66,5 +104,11 @@ export class ChatComponent implements OnInit {
     }).finally(() => {
       this.generatingTopic = false;
     });
+  }
+
+  scrollToBottom(): void {
+    if (this.container) {
+      this.container.nativeElement.scrollTop = this.container.nativeElement.scrollHeight;
+    }
   }
 }

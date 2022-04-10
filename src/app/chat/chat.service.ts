@@ -1,21 +1,25 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { firstValueFrom, Observable, catchError } from 'rxjs';
+import { firstValueFrom, map, Observable } from 'rxjs';
 import { Message, User } from '../home/home.service';
+import { SseService } from '../shared/sse.service';
+import { AuthService } from '../auth/auth.service';
 
 export interface Chat {
   receiver: string;
   messages: Message[];
+  seeConnection: Observable<string>;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
+  chats: Chat[] = [];
 
-  constructor(private httpClient: HttpClient) {
-  }
+  constructor(private httpClient: HttpClient, private sseService: SseService, private authService: AuthService) { }
+
 
   async getUsername(id: string): Promise<string> {
     const response = this.httpClient.get<User>(environment.backendUrl + '/user/public/' + id);
@@ -55,15 +59,40 @@ export class ChatService {
     })
   }
 
-  getChat(id: string): Observable<Chat> {
-    // TODO
-    return new Observable(
-      observer => {
-        observer.next({
-          receiver: '',
-          messages: []
-        });
-      }
+  getMessages(id: string): Observable<Message[]> {
+    // check if chat exists
+    const chat = this.chats.find(c => c.receiver === id);
+    if (chat) {
+      return new Observable<Message[]>(observer => {
+        observer.next(chat.messages);
+        chat.seeConnection.subscribe(data => {
+          observer.next(this.sseStringToMessages(data));
+        })
+      });
+    } else {
+      const sse = this.sseService.observeMessages(environment.backendUrl + '/messages/conversation/stream/' + id + '/' + this.authService.getToken());
+      const chat: Chat = {
+        receiver: id,
+        messages: [],
+        seeConnection: sse
+      };
+      this.chats.push(chat);
+      chat.seeConnection.subscribe(data => {
+        chat.messages.push(...this.sseStringToMessages(data));
+      });
+      return this.sseConnectionToMessages(sse);
+    }
+  }
+
+  private sseConnectionToMessages(sse: Observable<string>): Observable<Message[]> {
+    return sse.pipe(
+      map(data => {
+        return this.sseStringToMessages(data);
+      })
     );
+  }
+
+  private sseStringToMessages(sse: string): Message[] {
+    return JSON.parse(sse)
   }
 }
