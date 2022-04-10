@@ -2,33 +2,19 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { firstValueFrom, tap } from 'rxjs';
+import { GeneralService } from '../../shared/general.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MessageService {
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private generalService: GeneralService) {
   }
 
   async getPublicProfilePicture(id: string): Promise<string> {
-    return new Promise<string>((resolve, reject) => {
-      this.httpClient.get(environment.backendUrl + '/user/profilePicture/' + id, { responseType: 'blob' }).subscribe({
-        next: response => {
-          const reader = new FileReader();
-          reader.readAsDataURL(response);
-          reader.onloadend = () => {
-            resolve(reader.result as string);
-          }
-          reader.onerror = () => {
-            reject('Could not read profile picture');
-          }
-        },
-        error: err => {
-          reject(err);
-        }
-      });
-    });
+    return this.generalService.blobRequestToDataUrl(
+      this.httpClient.get(environment.backendUrl + '/user/profilePicture/' + id, { responseType: 'blob' })
+    );
   }
-
 }

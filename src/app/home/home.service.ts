@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { catchError, firstValueFrom } from 'rxjs';
 import { ModalService } from '../shared/modal.service';
+import { GeneralService } from '../shared/general.service';
 
 export interface Chat { user: User, lastMessage?: Message }
 
@@ -34,7 +35,7 @@ export interface Message {
 })
 export class HomeService implements OnInit {
   messages: Message[] = [];
-  constructor(private httpClient: HttpClient, private modalService: ModalService) {
+  constructor(private httpClient: HttpClient, private modalService: ModalService, private generalService: GeneralService) {
   }
   ngOnInit(): void {
   }
@@ -69,25 +70,8 @@ export class HomeService implements OnInit {
   }
 
   async getProfilePicture(): Promise<string> {
-    // get profile picture as readstream and convert to base64
-
-    return new Promise<string>((resolve, reject) => {
+    return this.generalService.blobRequestToDataUrl(
       this.httpClient.get(environment.backendUrl + '/user/profilePicture', { responseType: 'blob' })
-        .subscribe({
-          next: response => {
-            const reader = new FileReader();
-            reader.readAsDataURL(response);
-            reader.onloadend = () => {
-              resolve(reader.result as string);
-            }
-            reader.onerror = () => {
-              reject('Could not read profile picture');
-            }
-          },
-          error: err => {
-            reject(err);
-          }
-        })
-    });
+    );
   }
 }
