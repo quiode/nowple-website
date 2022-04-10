@@ -17,10 +17,10 @@
   </div>
 </div>
 
-<div #container class="container-fluid" style="position: fixed;z-index: -1;overflow: auto;">
+<div #container class="container-fluid fs-2" style="position: fixed;z-index: -1;overflow: auto;">
   <div class="row" *ngFor="let message of messages">
-    <app-topic *ngIf="message.isTopic"></app-topic>
-    <app-message *ngIf="!message.isTopic"></app-message>
+    <app-topic *ngIf="message.isTopic" [message]="message"></app-topic>
+    <app-message *ngIf="!message.isTopic" [message]="message" [username]="userName"></app-message>
   </div>
 </div>
 

@@ -77,9 +77,12 @@ export class ChatService {
         seeConnection: sse
       };
       this.chats.push(chat);
-      chat.seeConnection.subscribe(data => {
-        const dataObject = this.sseStringToMessages(data).filter(m => chat.messages.findIndex(m2 => m2.id === m.id && m.receiver === m2.receiver && m.sender == m2.sender) === -1);
-        chat.messages.push(...dataObject);
+      sse.subscribe(data => {
+        for (const message of this.sseStringToMessages(data)) {
+          if (chat.messages.findIndex(m => m.id === message.id && m.receiver === message.receiver && m.sender === message.sender) == -1) {
+            chat.messages.push(message);
+          }
+        }
       });
       return this.sseConnectionToMessages(sse);
     }

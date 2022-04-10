@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Message } from '../../home/home.service';
 
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss']
 })
-export class MessageComponent implements OnInit {
+export class MessageComponent implements AfterViewInit {
+  @Input() message?: Message;
+  @Input() username: string = 'N/A';
+  date: Date = new Date();
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
+    if (this.message) this.date = new Date(this.message?.time);
   }
-
 }

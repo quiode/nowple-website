@@ -7,6 +7,7 @@ import { catchError, firstValueFrom } from 'rxjs';
 import { ModalService } from '../shared/modal.service';
 import { GeneralService } from '../shared/general.service';
 import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
 
 export interface Chat { user: User, lastMessage?: Message }
 
@@ -36,13 +37,12 @@ export interface Message {
 })
 export class HomeService implements OnInit {
   messages: Message[] = [];
-  constructor(private httpClient: HttpClient, private modalService: ModalService, private generalService: GeneralService, private authService: AuthService) {
+  constructor(private httpClient: HttpClient, private modalService: ModalService, private generalService: GeneralService, private authService: AuthService, private router: Router) {
   }
   ngOnInit(): void {
   }
 
   async findMatch() {
-    // TODO
     const response = this.httpClient.post<User>(environment.backendUrl + '/user/find', {}).pipe(
       catchError(err => {
         this.modalService.show({
@@ -55,6 +55,9 @@ export class HomeService implements OnInit {
       })
     );
     const user = await firstValueFrom(response);
+    if (user) {
+      this.router.navigate(['/chat', user.id]);
+    }
     return user;
   }
 

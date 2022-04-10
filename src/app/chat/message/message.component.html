@@ -1,1 +1,8 @@
-<p>message works!</p>
+<div class="row"
+  [ngClass]="message?.receiver?.username == username ? 'justify-content-start text-start ms-1' : 'justify-content-end text-end me-1'">
+  <div [ngClass]="message?.receiver?.username != username ? 'bg-primary' : 'bg-secondary'" class="col-7 w-auto px-4"
+    style="margin-bottom: 0.1em;max-width: 66%;">
+    <div class="row">{{ message?.message }}</div>
+    <div class="row fs-5">{{ date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}</div>
+  </div>
+</div>
