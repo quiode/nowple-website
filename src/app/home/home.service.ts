@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import { catchError, firstValueFrom } from 'rxjs';
 import { ModalService } from '../shared/modal.service';
 import { GeneralService } from '../shared/general.service';
+import { AuthService } from '../auth/auth.service';
 
 export interface Chat { user: User, lastMessage?: Message }
 
@@ -35,7 +36,7 @@ export interface Message {
 })
 export class HomeService implements OnInit {
   messages: Message[] = [];
-  constructor(private httpClient: HttpClient, private modalService: ModalService, private generalService: GeneralService) {
+  constructor(private httpClient: HttpClient, private modalService: ModalService, private generalService: GeneralService, private authService: AuthService) {
   }
   ngOnInit(): void {
   }

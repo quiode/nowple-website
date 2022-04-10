@@ -30,7 +30,6 @@ export class ChatService {
       this.httpClient.post<Message>(environment.backendUrl + '/messages/send/' + id, { message: message, date: new Date() }).subscribe(
         {
           next: (data) => {
-            console.log('data2', data);
             resolve();
           },
           error: (err) => {
@@ -46,7 +45,6 @@ export class ChatService {
       this.httpClient.get<Message>(environment.backendUrl + '/messages/topic/' + id, {}).subscribe(
         {
           next: (data) => {
-            console.log('data2', data);
             resolve();
           },
           error: (err) => {

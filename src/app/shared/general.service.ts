@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, retry } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +22,9 @@ export class GeneralService {
             reject('Could not read profile picture');
           }
         },
-        error: err => {
-          reject(err);
+        error: (err: HttpErrorResponse) => {
+          const message = err.statusText || 'Could not read profile picture';
+          reject(message);
         }
       });
     });
