@@ -79,7 +79,7 @@ export class ChatService {
       this.chats.push(chat);
       sse.subscribe(data => {
         for (const message of this.sseStringToMessages(data)) {
-          if (chat.messages.findIndex(m => m.id === message.id && m.receiver === message.receiver && m.sender === message.sender) == -1) {
+          if (chat.messages.findIndex(m => m.id === message.id) == -1) {
             chat.messages.push(message);
           }
         }

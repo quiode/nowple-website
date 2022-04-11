@@ -41,7 +41,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
     this.chatService.getMessages(this.uuid).subscribe(messages => {
       let newMessage = false;
       for (let message of messages) {
-        if (this.messages.findIndex(m => m.id == message.id && m.sender == message.sender && m.receiver == message.receiver) == -1) {
+        if (this.messages.findIndex(m => m.id == message.id) == -1) {
           this.messages.push(message);
           newMessage = true;
         }
