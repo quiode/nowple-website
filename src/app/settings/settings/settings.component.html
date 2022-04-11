@@ -1,1 +1,46 @@
-<p>settings works!</p>
+<div #top class="container-fluid bg-primary p-2" style="position: fixed;">
+  <div class="row">
+    <div class="col me-4">
+      <div class="top-container">
+        <i class="bi bi-arrow-return-left" style="font-size: 2.5em;" (click)="onBack()"></i>
+      </div>
+    </div>
+    <div class="col">
+      <div class="fs-3"
+        style="display: flex;height: 100%;width: 100%;align-content: center;align-items: center;justify-content: center;word-wrap: anywhere;">
+        <span>Settings</span>
+      </div>
+    </div>
+    <div class="col">
+      <div class="top-container justify-content-start">
+        <i class="bi bi-box-arrow-right" style="cursor: pointer;" style="font-size: 2.5em;" (click)="onLogout()"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div #container class="container-fluid fs-2" style="position: fixed;z-index: -1;overflow: auto;">
+  <form [formGroup]="settingsForm" class="container p-2 text-center" (ngSubmit)="onSubmit()">
+    <div *ngIf="!submitting && !gettingSettings" class="container">
+      <div class="row">
+        <div class="col">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" name="isDarkMode" formControlName="isDarkMode"
+              role="switch">
+            <label class="form-label" for="isDarkMode">Darkmode</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <button *ngIf="settingsForm.dirty && !submitting && !gettingSettings" class="btn btn-primary"
+        [disabled]="settingsForm.pristine && settingsForm.invalid">Submit</button>
+      <div class="col" *ngIf="settingsForm.dirty && submitting || gettingSettings">
+        <div class="spinner-border" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
