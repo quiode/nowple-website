@@ -71,4 +71,17 @@ export class ProfileService {
     });
     return this.sanitizer.bypassSecurityTrustUrl(response);
   }
+
+  updateInterests(interests: Interests): Promise<Interests> {
+    return new Promise<Interests>((resolve, reject) => {
+      this.httpClient.patch<Interests>(environment.backendUrl + '/interests', interests).subscribe({
+        next: (data: Interests) => {
+          resolve(data);
+        },
+        error: (err: HttpErrorResponse) => {
+          reject(err.statusText);
+        },
+      });
+    });
+  }
 }

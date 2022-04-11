@@ -8,7 +8,7 @@ import { ModalService } from '../../shared/modal.service';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit, AfterViewInit {
   @ViewChild('container') container?: ElementRef<HTMLDivElement>;
@@ -20,15 +20,22 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     isDarkMode: new FormControl(false),
   });
 
-  constructor(private authService: AuthService, private router: Router, private route: ActivatedRoute, private renderer: Renderer2, private settingsService: SettingsService, private modalService: ModalService) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private renderer: Renderer2,
+    private settingsService: SettingsService,
+    private modalService: ModalService
+  ) {}
 
   ngAfterViewInit(): void {
     this.observer = new ResizeObserver((entries) => {
       if (!(this.container && this.top)) return;
       let space = 0;
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         space += entry.borderBoxSize[0].blockSize;
-      })
+      });
       this.renderer.setStyle(this.container?.nativeElement, 'top', `${space}px`);
     });
 
@@ -38,8 +45,8 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.settingsService.getSettings().then(settings => {
-      this.settingsForm.setValue({ 'isDarkMode': settings.isDarkMode });
+    this.settingsService.getSettings().then((settings) => {
+      this.settingsForm.setValue({ isDarkMode: settings.isDarkMode });
       this.gettingSettings = false;
     });
   }
@@ -56,16 +63,16 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     const isDarkMode = this.settingsForm.get('isDarkMode');
 
     if (this.settingsForm.valid && this.settingsForm.dirty && isDarkMode) {
-
       this.submitting = true;
-      this.settingsService.setSettings({ isDarkMode: isDarkMode.value })
+      this.settingsService
+        .setSettings({ isDarkMode: isDarkMode.value })
         .catch((e) => {
           this.modalService.show({
             title: 'Error',
             message: e as string,
             confirmText: 'Ok',
             type: 'alert',
-          })
+          });
         })
         .finally(() => {
           this.submitting = false;
@@ -77,7 +84,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
         message: 'Please fill out all fields',
         confirmText: 'Ok',
         type: 'alert',
-      })
+      });
     }
   }
 }

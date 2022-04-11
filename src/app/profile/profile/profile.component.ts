@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { User } from '../../home/home.service';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
-import { ProfileService } from '../profile.service';
+import { ProfileService, Interests } from '../profile.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { ModalService } from '../../shared/modal.service';
 import { GeneralService } from '../../shared/general.service';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +17,14 @@ import { GeneralService } from '../../shared/general.service';
 export class ProfileComponent implements OnInit {
   profile?: User;
   uuid: string;
+  editingPolitics = false;
   profilePicture: SafeUrl = environment.defaultProfilePicture;
+  politicsForm = new FormGroup({
+    economic: new FormControl(''),
+    diplomatic: new FormControl(''),
+    civil: new FormControl(''),
+    society: new FormControl(''),
+  });
 
   constructor(
     private profileService: ProfileService,
@@ -49,6 +57,20 @@ export class ProfileComponent implements OnInit {
       .then((profile) => {
         if (profile) {
           this.profile = profile;
+          if (this.profile && this.profile.interests) {
+            if (this.profile.interests.civil) {
+              this.politicsForm.patchValue({ civil: this.profile.interests.civil });
+            }
+            if (this.profile.interests.diplomatic) {
+              this.politicsForm.patchValue({ diplomatic: this.profile.interests.diplomatic });
+            }
+            if (this.profile.interests.economic) {
+              this.politicsForm.patchValue({ economic: this.profile.interests.economic });
+            }
+            if (this.profile.interests.society) {
+              this.politicsForm.patchValue({ society: this.profile.interests.society });
+            }
+          }
         }
       });
   }
@@ -104,5 +126,31 @@ export class ProfileComponent implements OnInit {
     }
 
     target.value = '';
+  }
+
+  submitPolitics() {
+    this.editingPolitics = false;
+
+    const updatetInterests: Interests = {
+      ...this.profile?.interests,
+      civil: this.politicsForm.get('civil')?.value || this.profile?.interests?.civil,
+      diplomatic: this.politicsForm.get('diplomatic')?.value || this.profile?.interests?.diplomatic,
+      economic: this.politicsForm.get('economic')?.value || this.profile?.interests?.economic,
+      society: this.politicsForm.get('society')?.value || this.profile?.interests?.society,
+    };
+
+    this.profileService
+      .updateInterests(updatetInterests)
+      .catch((err) => {
+        this.modalService.show({
+          title: 'Error',
+          message: err.message,
+          type: 'alert',
+          confirmText: 'Ok',
+        });
+      })
+      .then(() => {
+        this.router.navigate([''], { relativeTo: this.route });
+      });
   }
 }
