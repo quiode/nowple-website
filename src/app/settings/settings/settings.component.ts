@@ -53,8 +53,6 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-
-
     const isDarkMode = this.settingsForm.get('isDarkMode');
 
     if (this.settingsForm.valid && this.settingsForm.dirty && isDarkMode) {

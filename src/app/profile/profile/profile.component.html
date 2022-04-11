@@ -1,1 +1,82 @@
-<p>profile works!</p>
+<i class="bi bi-arrow-return-left ms-2" style="font-size: 2em;position: fixed;top: 0;left: 0;cursor: pointer;"
+  (click)="onBack()"></i>
+<div class="container-fluid row justify-content-center m-0 p-0 text-center">
+  <div class="row justify-content-center">
+    <div class="fs-2 text-primary col-7 text-break">{{ profile?.username || 'N/A' }}</div>
+  </div>
+  <div class="m-1 mt-2">
+    <div class="row justify-content-center mb-2">
+      <img [src]="profilePicture" class="col-7 p-0 m-0 img img-fuild"
+        style="border-radius: 50%; aspect-ratio: 1/1;max-height: 50vh;">
+      <i (click)="fileSelect.click()" *ngIf="isPrivateProfile()" id="editIcon" class="bi bi-pencil-square"
+        style="cursor: pointer;"></i>
+    </div>
+    <div
+      *ngIf="profile?.interests?.civil || profile?.interests?.diplomatic || profile?.interests?.economic || profile?.interests?.society || profile?.interests?.ideology">
+      <div class="row mx-5">
+        <button class="col btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"
+          aria-expanded="false" aria-controls="collapseExample">
+          Political Views
+        </button>
+        <i *ngIf="isPrivateProfile()" class="col-1 bi bi-pencil-square fs-2" style="cursor: pointer;"></i>
+      </div>
+      <div class="collapse my-2" id="collapseExample">
+        <div class="container">
+
+          <div class="row align-items-baseline" *ngIf="profile?.interests?.civil">
+            <div class="col-4">Civil:</div>
+            <div class="col">
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [style.width.%]="profile?.interests?.civil"
+                  [attr.aria-valuenow]="profile?.interests?.civil" aria-valuemin="0" aria-valuemax="100">
+                  {{ profile?.interests?.civil }}%</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row align-items-baseline" *ngIf="profile?.interests?.diplomatic">
+            <div class="col-4">Diplomatic:</div>
+            <div class="col">
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [style.width.%]="profile?.interests?.diplomatic"
+                  [attr.aria-valuenow]="profile?.interests?.diplomatic" aria-valuemin="0" aria-valuemax="100">
+                  {{ profile?.interests?.diplomatic }}%</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row align-items-baseline" *ngIf="profile?.interests?.economic">
+            <div class="col-4">Economic:</div>
+            <div class="col">
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [style.width.%]="profile?.interests?.economic"
+                  [attr.aria-valuenow]="profile?.interests?.economic" aria-valuemin="0" aria-valuemax="100">
+                  {{ profile?.interests?.economic }}%</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row align-items-baseline" *ngIf="profile?.interests?.society">
+            <div class="col-4">Society:</div>
+            <div class="col">
+              <div class="progress">
+                <div class="progress-bar" role="progressbar" [style.width.%]="profile?.interests?.society"
+                  [attr.aria-valuenow]="profile?.interests?.society" aria-valuemin="0" aria-valuemax="100">
+                  {{ profile?.interests?.society }}%</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row align-items-baseline" *ngIf="profile?.interests?.ideology">
+            <div class="col-4">Ideology:</div>
+            <div class="col">
+              {{ profile?.interests?.ideology }}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<input type="file" #fileSelect style="display: none;" accept="image/*" (change)="fileSelectFunction($event)">

@@ -9,3 +9,7 @@ body {
   // background: rgb(202, 19, 117);
   // background: linear-gradient(45deg, rgba(202, 19, 117, 1) 0%, rgba(252, 197, 226, 1) 35%, rgba(253, 218, 236, 1) 100%);
 }
+
+img {
+  object-fit: cover;
+}

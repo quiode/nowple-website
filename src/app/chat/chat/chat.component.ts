@@ -5,6 +5,7 @@ import { MessageService } from '../../home/message/message.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ChatService } from '../chat.service';
 import { ModalService } from '../../shared/modal.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-cgat',
@@ -21,7 +22,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   generatingTopic = false;
   message: string = '';
   userName: string = '';
-  profilePicture: SafeUrl = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
+  profilePicture: SafeUrl = environment.defaultProfilePicture;
   observer?: ResizeObserver;
   bottomObserver?: ResizeObserver;
 

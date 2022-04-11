@@ -3,6 +3,7 @@ import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
 import { HomeService, Chat } from '../home.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   // windowWidth = window.screen.availWidth;
   findingMatch = false;
   chats: Chat[] = [];
-  profilePicture: SafeUrl = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
+  profilePicture: SafeUrl = environment.defaultProfilePicture;
   observer?: ResizeObserver;
 
   constructor(private authService: AuthService, private router: Router, private homeService: HomeService, private sanitizer: DomSanitizer, private renderer: Renderer2) { }
