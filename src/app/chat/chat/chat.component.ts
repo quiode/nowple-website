@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Renderer2, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Renderer2, AfterViewInit, Input } from '@angular/core';
 import { Router, RouterState, ActivatedRoute, RouterStateSnapshot } from '@angular/router';
 import { HomeService, Message } from '../../home/home.service';
 import { MessageService } from '../../home/message/message.service';
@@ -15,11 +15,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
   @ViewChild('top') top?: ElementRef<HTMLDivElement>;
   @ViewChild('bottom') bottom?: ElementRef<HTMLDivElement>;
   @ViewChild('container') container?: ElementRef<HTMLDivElement>;
+  @Input() uuid: string;
   messages: Message[] = [];
   sendingMessage = false;
   generatingTopic = false;
   message: string = '';
-  uuid: string;
   userName: string = '';
   profilePicture: SafeUrl = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
   observer?: ResizeObserver;
@@ -84,6 +84,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.renderer.setStyle(this.container?.nativeElement, 'height', `${window.innerHeight - this.top.nativeElement.offsetHeight - this.bottom.nativeElement.offsetHeight}px`);
       this.renderer.setStyle(this.container?.nativeElement, 'bottom', `${this.bottom.nativeElement.offsetHeight}px`);
     }
+
+    this.scrollToBottom();
   }
 
   onBack() {
@@ -118,7 +120,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
 
   scrollToBottom(): void {
     if (this.container) {
-      this.container.nativeElement.scrollTop = this.container.nativeElement.scrollHeight;
+      this.container.nativeElement.scrollTo(0, this.container.nativeElement.scrollHeight);
     }
   }
 }
