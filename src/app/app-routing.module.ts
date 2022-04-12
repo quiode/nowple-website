@@ -13,27 +13,32 @@ import { ProfileComponent } from './profile/profile/profile.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthGuard } from './auth/auth.guard';
 import { LoginGuard } from './auth/login.guard';
+import { ImpressumComponent } from './impressum/impressum/impressum.component';
 
 const routes: Routes = [
   { path: '', component: AuthHomeComponent, pathMatch: 'full', canActivate: [LoginGuard] },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [LoginGuard] },
   {
-    path: 'signup', component: SignupComponent, canActivate: [LoginGuard], children: [
+    path: 'signup',
+    component: SignupComponent,
+    canActivate: [LoginGuard],
+    children: [
       { path: '', redirectTo: '1', pathMatch: 'full' },
       { path: '1', component: FirstComponent },
       { path: '2', component: SecondComponent },
       { path: '3', component: LastComponent },
-    ]
+    ],
   },
   { path: 'chat/:id', component: ChatComponent, canActivate: [AuthGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: '**', component: NotFoundComponent }
+  { path: 'impressum', component: ImpressumComponent },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
