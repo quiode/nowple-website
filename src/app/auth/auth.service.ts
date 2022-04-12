@@ -128,6 +128,7 @@ export class AuthService {
   logout(): void {
     this.setToken('');
     this._isLoggedIn.next(false);
+    location.reload();
   }
 
   async signUp(signUp: SignUpData, profilePicture: File) {

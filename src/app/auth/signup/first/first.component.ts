@@ -7,16 +7,28 @@ import { ModalService } from '../../../shared/modal.service';
 @Component({
   selector: 'app-first',
   templateUrl: './first.component.html',
-  styleUrls: ['./first.component.scss']
+  styleUrls: ['./first.component.scss'],
 })
 export class FirstComponent implements OnInit {
   form = new FormGroup({
-    username: new FormControl(this.signupService.signUpData.data1?.username || '', [Validators.required]),
-    password: new FormControl(this.signupService.signUpData.data1?.password || '', [Validators.required, Validators.minLength(5)]),
-    profilePicture: new FormControl(this.signupService.getProfilePicture()?.name || '', [Validators.required])
+    username: new FormControl(this.signupService.signUpData.data1?.username || '', [
+      Validators.required,
+    ]),
+    password: new FormControl(this.signupService.signUpData.data1?.password || '', [
+      Validators.required,
+      Validators.minLength(5),
+    ]),
+    profilePicture: new FormControl(this.signupService.getProfilePicture()?.name || '', [
+      Validators.required,
+    ]),
   });
 
-  constructor(private signupService: SignupService, private router: Router, private route: ActivatedRoute, private modalService: ModalService) { }
+  constructor(
+    private signupService: SignupService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private modalService: ModalService
+  ) {}
 
   ngOnInit(): void {
     if (this.signupService.signUpData.data1) {
@@ -46,31 +58,15 @@ export class FirstComponent implements OnInit {
           this.signupService.setProfilePicture(file);
           return;
         } else {
-          this.modalService.show({
-            title: 'Error',
-            message: 'The file is too big',
-            type: 'alert',
-            confirmText: 'Ok'
-          })
+          this.modalService.showAlert('The file is too big');
         }
       } else {
-        this.modalService.show({
-          title: 'Error',
-          message: 'Wrong image type',
-          type: 'alert',
-          confirmText: 'Ok'
-        })
+        this.modalService.showAlert('Wrong image type');
       }
     } else {
-      this.modalService.show({
-        title: 'Error',
-        message: 'Too many files or no file selected',
-        type: 'alert',
-        confirmText: 'Ok'
-      })
+      this.modalService.showAlert('Too many files or no file selected');
     }
 
     target.value = '';
   }
 }
-

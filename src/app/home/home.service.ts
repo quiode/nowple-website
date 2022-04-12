@@ -9,48 +9,50 @@ import { GeneralService } from '../shared/general.service';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
 
-export interface Chat { user: User, lastMessage?: Message }
+export interface Chat {
+  user: User;
+  lastMessage?: Message;
+}
 
 export interface User {
-  id: string,
-  username: string,
-  profilePicture: string,
-  settings?: Settings,
-  interests?: Interests,
-  sentMessages?: Message[],
-  receivedMessages?: Message[],
-  matches?: User[],
-  blocksOrDeclined?: User[]
-  contacts?: User[]
+  id: string;
+  username: string;
+  profilePicture: string;
+  settings?: Settings;
+  interests?: Interests;
+  sentMessages?: Message[];
+  receivedMessages?: Message[];
+  matches?: User[];
+  blocksOrDeclined?: User[];
+  contacts?: User[];
 }
 
 export interface Message {
-  id: number,
-  message: String,
-  time: string
-  isTopic: boolean,
-  sender: { username: string, id: string },
-  receiver: { username: string, id: string }
+  id: number;
+  message: String;
+  time: string;
+  isTopic: boolean;
+  sender: { username: string; id: string };
+  receiver: { username: string; id: string };
 }
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HomeService implements OnInit {
   messages: Message[] = [];
-  constructor(private httpClient: HttpClient, private modalService: ModalService, private generalService: GeneralService, private authService: AuthService, private router: Router) {
-  }
-  ngOnInit(): void {
-  }
+  constructor(
+    private httpClient: HttpClient,
+    private modalService: ModalService,
+    private generalService: GeneralService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+  ngOnInit(): void {}
 
   async findMatch() {
     const response = this.httpClient.post<User>(environment.backendUrl + '/user/find', {}).pipe(
-      catchError(err => {
-        this.modalService.show({
-          title: 'Error',
-          message: err.error.message,
-          type: 'alert',
-          confirmText: 'Ok'
-        });
+      catchError((err) => {
+        this.modalService.showAlert(err.error.message);
         return [];
       })
     );

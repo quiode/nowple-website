@@ -18,10 +18,12 @@
         {{ modalOptions.options.message }}
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+        <button (click)="modalOptions.options.callBack('CANCEL')" type="button" class="btn btn-secondary"
+          data-bs-dismiss="modal"
           [style]="{display: modalOptions.options.cancelText != undefined ? 'initial' : 'none'}">{{
           modalOptions.options.cancelText }}</button>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{ modalOptions.options.confirmText
+        <button (click)="modalOptions.options.callBack('OK')" type="button" class="btn btn-primary"
+          data-bs-dismiss="modal">{{ modalOptions.options.confirmText
           }}</button>
       </div>
     </div>

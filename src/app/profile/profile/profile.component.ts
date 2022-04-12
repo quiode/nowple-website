@@ -47,12 +47,7 @@ export class ProfileComponent implements OnInit {
       .getProfile(this.uuid)
       .catch((err) => {
         this.router.navigate(['']);
-        this.modalService.show({
-          title: 'Error',
-          message: 'User not found',
-          confirmText: 'Ok',
-          type: 'alert',
-        });
+        this.modalService.showAlert('User not found');
       })
       .then((profile) => {
         if (profile) {
@@ -101,28 +96,13 @@ export class ProfileComponent implements OnInit {
           });
           return;
         } else {
-          this.modalService.show({
-            title: 'Error',
-            message: 'The file is too big',
-            type: 'alert',
-            confirmText: 'Ok',
-          });
+          this.modalService.showAlert('The file is too big');
         }
       } else {
-        this.modalService.show({
-          title: 'Error',
-          message: 'Wrong image type',
-          type: 'alert',
-          confirmText: 'Ok',
-        });
+        this.modalService.showAlert('Wrong image type');
       }
     } else {
-      this.modalService.show({
-        title: 'Error',
-        message: 'Too many files or no file selected',
-        type: 'alert',
-        confirmText: 'Ok',
-      });
+      this.modalService.showAlert('Too many files or no file selected');
     }
 
     target.value = '';
@@ -142,15 +122,21 @@ export class ProfileComponent implements OnInit {
     this.profileService
       .updateInterests(updatetInterests)
       .catch((err) => {
-        this.modalService.show({
-          title: 'Error',
-          message: err.message,
-          type: 'alert',
-          confirmText: 'Ok',
-        });
+        this.modalService.showAlert(err.message);
       })
       .then(() => {
         this.router.navigate([''], { relativeTo: this.route });
       });
+  }
+
+  blockUser() {
+    this.profileService.blockUser(this.uuid).then(
+      () => {
+        this.router.navigate(['']);
+      },
+      (err: string) => {
+        this.modalService.showAlert(err);
+      }
+    );
   }
 }

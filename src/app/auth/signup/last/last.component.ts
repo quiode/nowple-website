@@ -7,14 +7,19 @@ import { ModalService } from '../../../shared/modal.service';
 @Component({
   selector: 'app-last',
   templateUrl: './last.component.html',
-  styleUrls: ['./last.component.scss']
+  styleUrls: ['./last.component.scss'],
 })
 export class LastComponent implements OnInit {
   form = new FormGroup({
-    darkmode: new FormControl(this.signupService.signUpData.data3?.darkmode || false)
+    darkmode: new FormControl(this.signupService.signUpData.data3?.darkmode || false),
   });
 
-  constructor(private router: Router, private route: ActivatedRoute, private signupService: SignupService, private modalService: ModalService) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private signupService: SignupService,
+    private modalService: ModalService
+  ) {}
 
   ngOnInit(): void {
     if (!this.signupService.signUpData.data2) {
@@ -35,9 +40,9 @@ export class LastComponent implements OnInit {
           () => {
             this.router.navigate(['']);
           },
-          err => {
+          (err) => {
             this.router.navigate(['../1'], { relativeTo: this.route });
-            this.modalService.show({ message: err as string, title: 'Error', confirmText: 'Ok', type: 'alert' });
+            this.modalService.showAlert(err as string);
           }
         );
       }

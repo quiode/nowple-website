@@ -5,6 +5,7 @@ import { AuthService } from '../auth/auth.service';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../../environments/environment';
 import { Ideology } from '../shared/ideologies';
+import { ModalService } from '../shared/modal.service';
 
 export interface Interests {
   economic?: number;
@@ -25,7 +26,8 @@ export class ProfileService {
   constructor(
     private httpClient: HttpClient,
     private authService: AuthService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private modalService: ModalService
   ) {}
 
   async getProfile(id: string): Promise<User> {
@@ -80,6 +82,34 @@ export class ProfileService {
         },
         error: (err: HttpErrorResponse) => {
           reject(err.statusText);
+        },
+      });
+    });
+  }
+
+  blockUser(id: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.modalService.show({
+        title: 'Block user',
+        message: 'Are you sure you want to block this user?\nThis cannot be undone.',
+        confirmText: 'Block',
+        cancelText: 'Cancel',
+        type: 'alert',
+        callBack: (eventType) => {
+          switch (eventType) {
+            case 'OK':
+              this.httpClient.post(environment.backendUrl + '/user/block/' + id, {}).subscribe({
+                next: () => {
+                  resolve();
+                },
+                error: (err: HttpErrorResponse) => {
+                  reject(err.statusText);
+                },
+              });
+              break;
+            case 'CANCEL':
+              break;
+          }
         },
       });
     });

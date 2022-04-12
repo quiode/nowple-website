@@ -67,24 +67,14 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       this.settingsService
         .setSettings({ isDarkMode: isDarkMode.value })
         .catch((e) => {
-          this.modalService.show({
-            title: 'Error',
-            message: e as string,
-            confirmText: 'Ok',
-            type: 'alert',
-          });
+          this.modalService.showAlert(e as string);
         })
         .finally(() => {
           this.submitting = false;
           this.onBack();
         });
     } else {
-      this.modalService.show({
-        title: 'Error',
-        message: 'Please fill out all fields',
-        confirmText: 'Ok',
-        type: 'alert',
-      });
+      this.modalService.showAlert('Please fill out all fields');
     }
   }
 }
