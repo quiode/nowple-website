@@ -2,7 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { firstValueFrom, map, Observable } from 'rxjs';
-import { Message, User } from '../home/home.service';
+import { Message } from '../shared/classes/Message';
+import { User } from '../shared/classes/User';
 import { SseService } from '../shared/sse.service';
 import { AuthService } from '../auth/auth.service';
 

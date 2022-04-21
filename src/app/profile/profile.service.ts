@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { User } from '../home/home.service';
+import { User } from '../shared/classes/User';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../../environments/environment';
-import { Ideology } from '../shared/ideologies';
+import { Ideology } from '../shared/constants/ideologies';
 import { ModalService } from '../shared/modal.service';
 
 export interface Interests {

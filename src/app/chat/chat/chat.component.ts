@@ -8,7 +8,8 @@ import {
   Input,
 } from '@angular/core';
 import { Router, RouterState, ActivatedRoute, RouterStateSnapshot } from '@angular/router';
-import { HomeService, Message } from '../../home/home.service';
+import { HomeService } from '../../home/home.service';
+import { Message } from '../../shared/classes/Message';
 import { MessageService } from '../../home/message/message.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ChatService } from '../chat.service';

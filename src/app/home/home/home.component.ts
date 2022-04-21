@@ -1,14 +1,23 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy, Renderer2 } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  OnDestroy,
+  Renderer2,
+} from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
-import { HomeService, Chat } from '../home.service';
+import { HomeService } from '../home.service';
+import { Chat } from '../../shared/classes/Chat';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('top1') top1?: ElementRef<HTMLDivElement>;
@@ -20,13 +29,19 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   profilePicture: SafeUrl = environment.defaultProfilePicture;
   observer?: ResizeObserver;
 
-  constructor(private authService: AuthService, private router: Router, private homeService: HomeService, private sanitizer: DomSanitizer, private renderer: Renderer2) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private homeService: HomeService,
+    private sanitizer: DomSanitizer,
+    private renderer: Renderer2
+  ) {}
 
   ngOnInit(): void {
-    this.homeService.getChats().then(chats => {
+    this.homeService.getChats().then((chats) => {
       this.chats = chats;
     });
-    this.homeService.getProfilePicture().then(profilePicture => {
+    this.homeService.getProfilePicture().then((profilePicture) => {
       this.profilePicture = this.sanitizer.bypassSecurityTrustUrl(profilePicture);
     });
 
@@ -34,11 +49,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       let space = 0;
       entries.forEach((entry) => {
         space += entry.contentRect.height;
-      })
+      });
       if (this.container && space > 0) {
         this.renderer.setStyle(this.container?.nativeElement, 'top', `${space}px`);
       }
-    })
+    });
   }
 
   ngAfterViewInit(): void {
@@ -61,7 +76,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       this.findingMatch = true;
       this.homeService.findMatch().finally(() => {
         this.findingMatch = false;
-        this.homeService.getChats().then(chats => {
+        this.homeService.getChats().then((chats) => {
           this.chats = chats;
         });
       });

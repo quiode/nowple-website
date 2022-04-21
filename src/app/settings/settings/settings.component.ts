@@ -18,6 +18,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   gettingSettings = true;
   settingsForm = new FormGroup({
     isDarkMode: new FormControl(false),
+    discoverable: new FormControl(false),
   });
 
   constructor(
@@ -46,7 +47,10 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.settingsService.getSettings().then((settings) => {
-      this.settingsForm.setValue({ isDarkMode: settings.isDarkMode });
+      this.settingsForm.setValue({
+        isDarkMode: settings.isDarkMode,
+        discoverable: settings.discoverable,
+      });
       this.gettingSettings = false;
     });
   }
@@ -61,11 +65,12 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
   onSubmit() {
     const isDarkMode = this.settingsForm.get('isDarkMode');
+    const discoverable = this.settingsForm.get('discoverable');
 
-    if (this.settingsForm.valid && this.settingsForm.dirty && isDarkMode) {
+    if (this.settingsForm.valid && this.settingsForm.dirty && isDarkMode && discoverable) {
       this.submitting = true;
       this.settingsService
-        .setSettings({ isDarkMode: isDarkMode.value })
+        .setSettings({ isDarkMode: isDarkMode.value, discoverable: discoverable.value })
         .catch((e) => {
           this.modalService.showAlert(e as string);
         })

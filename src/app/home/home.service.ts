@@ -1,6 +1,4 @@
 import { Injectable, OnInit } from '@angular/core';
-import { Settings } from '../settings/settings.service';
-import { Interests } from '../profile/profile.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { catchError, firstValueFrom } from 'rxjs';
@@ -8,33 +6,10 @@ import { ModalService } from '../shared/modal.service';
 import { GeneralService } from '../shared/general.service';
 import { AuthService } from '../auth/auth.service';
 import { Router } from '@angular/router';
+import { User } from '../shared/classes/User';
+import { Message } from '../shared/classes/Message';
+import { Chat } from '../shared/classes/Chat';
 
-export interface Chat {
-  user: User;
-  lastMessage?: Message;
-}
-
-export interface User {
-  id: string;
-  username: string;
-  profilePicture: string;
-  settings?: Settings;
-  interests?: Interests;
-  sentMessages?: Message[];
-  receivedMessages?: Message[];
-  matches?: User[];
-  blocksOrDeclined?: User[];
-  contacts?: User[];
-}
-
-export interface Message {
-  id: number;
-  message: String;
-  time: string;
-  isTopic: boolean;
-  sender: { username: string; id: string };
-  receiver: { username: string; id: string };
-}
 @Injectable({
   providedIn: 'root',
 })

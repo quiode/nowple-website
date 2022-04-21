@@ -1,18 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-
-export interface Settings {
-  id?: number,
-  isDarkMode: boolean,
-}
+import { Settings } from '../shared/classes/Settings';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SettingsService {
-
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   async getSettings(): Promise<Settings> {
     return new Promise<Settings>((resolve, reject) => {
@@ -23,7 +18,7 @@ export class SettingsService {
         error: (err: HttpErrorResponse) => {
           reject(err.statusText);
         },
-      })
+      });
     });
   }
 
@@ -37,7 +32,7 @@ export class SettingsService {
         error: (err: HttpErrorResponse) => {
           reject(err.statusText);
         },
-      })
+      });
     });
   }
 }

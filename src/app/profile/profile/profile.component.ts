@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../../home/home.service';
+import { User } from '../../shared/classes/User';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
 import { ProfileService, Interests } from '../profile.service';
