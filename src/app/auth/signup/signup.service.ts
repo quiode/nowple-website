@@ -5,7 +5,7 @@ export interface SignUpData {
   data1?: FormData1;
   data2?: FormData2;
   data3?: FormData3;
-};
+}
 
 export interface FormData1 {
   username: string;
@@ -20,21 +20,26 @@ export interface FormData2 {
 }
 
 export interface FormData3 {
-  darkmode: boolean;
+  isDarkMode: boolean;
+  discoverable: boolean;
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SignupService {
   signUpData: SignUpData = {};
   private profilePicture?: File;
 
-  constructor(private authService: AuthService) {
-  }
+  constructor(private authService: AuthService) {}
 
   async submit() {
-    if (this.signUpData.data1 && this.signUpData.data2 && this.signUpData.data3 && this.profilePicture) {
+    if (
+      this.signUpData.data1 &&
+      this.signUpData.data2 &&
+      this.signUpData.data3 &&
+      this.profilePicture
+    ) {
       return this.authService.signUp(this.signUpData, this.profilePicture);
     } else {
       return Promise.reject('Data not complete');

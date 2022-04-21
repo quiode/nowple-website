@@ -3,7 +3,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject, catchError, firstValueFrom, tap } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
-import { SignUpData } from './signup/signup.service';
+import { SignUpData, FormData1, FormData2, FormData3 } from './signup/signup.service';
 import { Router } from '@angular/router';
 import { ModalService } from '../shared/modal.service';
 import { GeneralService } from '../shared/general.service';
@@ -133,18 +133,13 @@ export class AuthService {
 
   async signUp(signUp: SignUpData, profilePicture: File) {
     if (signUp.data1 && signUp.data2 && signUp.data3 && profilePicture) {
-      const backendData = {
-        username: signUp.data1.username,
-        password: signUp.data1.password,
-        settings: {
-          isDarkMode: signUp.data3.darkmode,
-        },
-        interests: {
-          economic: signUp.data2.economic,
-          diplomatic: signUp.data2.diplomatic,
-          civil: signUp.data2.civil,
-          society: signUp.data2.society,
-        },
+      const backendData: FormData1 & {
+        interests: FormData2;
+        settings: FormData3;
+      } = {
+        ...signUp.data1,
+        interests: signUp.data2,
+        settings: signUp.data3,
       };
 
       return new Promise((resolve, reject) => {

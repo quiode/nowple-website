@@ -8,6 +8,15 @@
     </div>
   </div>
   <div class="row">
+    <div class="col">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" name="discoverable" formControlName="discoverable"
+          role="switch">
+        <label class="form-label" for="discoverable">Discoverable</label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <button class="btn btn-secondary col m-2" (click)="back()">Back</button>
     <button class="btn btn-primary col m-2" [disabled]="form.invalid || form.pristine">Submit</button>
   </div>
