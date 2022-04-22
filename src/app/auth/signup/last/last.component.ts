@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SignupService } from '../signup.service';
 import { ModalService } from '../../../shared/modal.service';
+import { Gender } from '../../../shared/constants/genders';
 
 @Component({
   selector: 'app-last',
@@ -10,9 +11,18 @@ import { ModalService } from '../../../shared/modal.service';
   styleUrls: ['./last.component.scss'],
 })
 export class LastComponent implements OnInit {
+  readonly genders = Object.values(Gender);
   form = new FormGroup({
     darkmode: new FormControl(this.signupService.signUpData.data3?.isDarkMode || false),
     discoverable: new FormControl(this.signupService.signUpData.data3?.discoverable || true),
+    considerPolitics: new FormControl(
+      this.signupService.signUpData.data3?.considerPolitics || true
+    ),
+    considerGender: new FormControl(this.signupService.signUpData.data3?.considerGender || true),
+    reversedPoliticalView: new FormControl(
+      this.signupService.signUpData.data3?.reversedPoliticalView || false
+    ),
+    preferredGender: new FormControl(this.signupService.signUpData.data3?.preferredGender || []),
   });
 
   constructor(
@@ -35,9 +45,27 @@ export class LastComponent implements OnInit {
     if (this.form.valid && this.form.touched) {
       const darkmode: boolean = this.form.get('darkmode')?.value;
       const discoverable: boolean = this.form.get('discoverable')?.value;
+      const considerPolitics: boolean = this.form.get('considerPolitics')?.value;
+      const considerGender: boolean = this.form.get('considerGender')?.value;
+      const reversedPoliticalView: boolean = this.form.get('reversedPoliticalView')?.value;
+      const preferredGender: Gender[] = this.form.get('preferredGender')?.value;
 
-      if (darkmode != undefined && discoverable != undefined) {
-        this.signupService.set3({ isDarkMode: darkmode, discoverable });
+      if (
+        darkmode != undefined &&
+        discoverable != undefined &&
+        considerGender != undefined &&
+        considerPolitics != undefined &&
+        reversedPoliticalView != undefined &&
+        preferredGender != undefined
+      ) {
+        this.signupService.set3({
+          isDarkMode: darkmode,
+          discoverable,
+          considerPolitics,
+          considerGender,
+          reversedPoliticalView,
+          preferredGender,
+        });
         this.signupService.submit().then(
           () => {
             this.router.navigate(['']);

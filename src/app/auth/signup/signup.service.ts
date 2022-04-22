@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { Gender } from '../../shared/constants/genders';
 
 export interface SignUpData {
   data1?: FormData1;
@@ -10,6 +11,7 @@ export interface SignUpData {
 export interface FormData1 {
   username: string;
   password: string;
+  gender: Gender;
 }
 
 export interface FormData2 {
@@ -22,6 +24,10 @@ export interface FormData2 {
 export interface FormData3 {
   isDarkMode: boolean;
   discoverable: boolean;
+  considerPolitics: boolean;
+  considerGender: boolean;
+  reversedPoliticalView: boolean;
+  preferredGender: Gender[];
 }
 
 @Injectable({

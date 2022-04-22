@@ -4,6 +4,7 @@ import { Router, RouterState, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SettingsService } from '../settings.service';
 import { ModalService } from '../../shared/modal.service';
+import { Gender } from '../../shared/constants/genders';
 
 @Component({
   selector: 'app-settings',
@@ -11,6 +12,7 @@ import { ModalService } from '../../shared/modal.service';
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit, AfterViewInit {
+  readonly genders = Object.values(Gender);
   @ViewChild('container') container?: ElementRef<HTMLDivElement>;
   @ViewChild('top') top?: ElementRef<HTMLDivElement>;
   observer?: ResizeObserver;
@@ -19,6 +21,10 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   settingsForm = new FormGroup({
     isDarkMode: new FormControl(false),
     discoverable: new FormControl(false),
+    considerPolitics: new FormControl(true),
+    considerGender: new FormControl(true),
+    reversedPoliticalView: new FormControl(false),
+    preferredGender: new FormControl([]),
   });
 
   constructor(
@@ -50,6 +56,10 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       this.settingsForm.setValue({
         isDarkMode: settings.isDarkMode,
         discoverable: settings.discoverable,
+        considerPolitics: settings.considerPolitics,
+        considerGender: settings.considerGender,
+        reversedPoliticalView: settings.reversedPoliticalView,
+        preferredGender: settings.preferredGender,
       });
       this.gettingSettings = false;
     });
@@ -66,11 +76,31 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   onSubmit() {
     const isDarkMode = this.settingsForm.get('isDarkMode');
     const discoverable = this.settingsForm.get('discoverable');
+    const considerPolitics = this.settingsForm.get('considerPolitics');
+    const considerGender = this.settingsForm.get('considerGender');
+    const reversedPoliticalView = this.settingsForm.get('reversedPoliticalView');
+    const preferredGender = this.settingsForm.get('preferredGender');
 
-    if (this.settingsForm.valid && this.settingsForm.dirty && isDarkMode && discoverable) {
+    if (
+      this.settingsForm.valid &&
+      this.settingsForm.dirty &&
+      isDarkMode &&
+      discoverable &&
+      considerPolitics &&
+      considerGender &&
+      reversedPoliticalView &&
+      preferredGender
+    ) {
       this.submitting = true;
       this.settingsService
-        .setSettings({ isDarkMode: isDarkMode.value, discoverable: discoverable.value })
+        .setSettings({
+          isDarkMode: isDarkMode.value,
+          discoverable: discoverable.value,
+          considerPolitics: considerPolitics.value,
+          considerGender: considerGender.value,
+          reversedPoliticalView: reversedPoliticalView.value,
+          preferredGender: preferredGender.value,
+        })
         .catch((e) => {
           this.modalService.showAlert(e as string);
         })

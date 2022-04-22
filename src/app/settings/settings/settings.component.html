@@ -41,14 +41,56 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="row">
-      <button *ngIf="settingsForm.dirty && !submitting && !gettingSettings" class="btn btn-primary"
-        [disabled]="settingsForm.pristine && settingsForm.invalid">Submit</button>
-      <div class="col" *ngIf="settingsForm.dirty && submitting || gettingSettings">
-        <div class="spinner-border" role="status">
-          <span class="visually-hidden">Loading...</span>
+      <div class="row">
+        <div class="col">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" name="considerPolitics" formControlName="considerPolitics"
+              role="switch">
+            <label class="form-label" for="considerPolitics">consider Politics</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" name="considerGender" formControlName="considerGender"
+              role="switch">
+            <label class="form-label" for="considerGender">consider Gender</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" name="reversedPoliticalView"
+              formControlName="reversedPoliticalView" role="switch">
+            <label class="form-label" for="reversedPoliticalView">reversed Political View</label>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col">
+          <label for="preferredGender" class="form-label">Preferred Gender (can me multiple)</label>
+          <select formControlName="preferredGender" aria-label="Preferred Gender Select" class="form-select"
+            name="preferredGender" multiple>
+            <option *ngFor="let gender of genders" [value]="gender">{{ gender }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <button *ngIf="settingsForm.dirty && !submitting && !gettingSettings" class="btn btn-primary"
+          [disabled]="settingsForm.pristine && settingsForm.invalid">Submit</button>
+        <div class="col" *ngIf="settingsForm.dirty && submitting || gettingSettings">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
         </div>
       </div>
     </div>

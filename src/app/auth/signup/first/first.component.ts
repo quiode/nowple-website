@@ -3,6 +3,7 @@ import { SignupService } from '../signup.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterStateSnapshot } from '@angular/router';
 import { ModalService } from '../../../shared/modal.service';
+import { Gender } from '../../../shared/constants/genders';
 
 @Component({
   selector: 'app-first',
@@ -10,6 +11,8 @@ import { ModalService } from '../../../shared/modal.service';
   styleUrls: ['./first.component.scss'],
 })
 export class FirstComponent implements OnInit {
+  readonly genders = Object.values(Gender);
+  readonly initialSelectValue = 'Select your Gender';
   form = new FormGroup({
     username: new FormControl(this.signupService.signUpData.data1?.username || '', [
       Validators.required,
@@ -21,6 +24,10 @@ export class FirstComponent implements OnInit {
     profilePicture: new FormControl(this.signupService.getProfilePicture()?.name || '', [
       Validators.required,
     ]),
+    gender: new FormControl(
+      this.signupService.signUpData.data1?.gender || this.initialSelectValue,
+      [Validators.required, Validators.pattern(`^(?!${this.initialSelectValue}$).*`)]
+    ),
   });
 
   constructor(
@@ -40,9 +47,10 @@ export class FirstComponent implements OnInit {
     if (this.form.valid) {
       const username = this.form.get('username')?.value;
       const password = this.form.get('password')?.value;
+      const gender = this.form.get('gender')?.value;
 
       if (username && password) {
-        this.signupService.set1({ username, password });
+        this.signupService.set1({ username, password, gender });
         this.router.navigate(['../2'], { relativeTo: this.route });
       }
     }

@@ -1,6 +1,7 @@
 import { Settings } from './Settings';
 import { Interests } from '../../profile/profile.service';
 import { Message } from './Message';
+import { Gender } from '../constants/genders';
 
 export interface User {
   id: string;
@@ -13,4 +14,5 @@ export interface User {
   matches?: User[];
   blocksOrDeclined?: User[];
   contacts?: User[];
+  gender: Gender;
 }

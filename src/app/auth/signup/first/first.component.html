@@ -5,6 +5,13 @@
   <label class="form-label">Password</label>
   <input class="form-control" type="password" formControlName="password"
     [ngClass]="form.get('password')?.invalid ? 'is-invalid' : 'is-valid'">
+  <div class="col my-3">
+    <select [ngClass]="form.get('gender')?.invalid ? 'is-invalid' : 'is-valid'" formControlName="gender"
+      aria-label="Preferred Gender Select" class="form-select" name="gender">
+      <option selected>{{ initialSelectValue }}</option>
+      <option *ngFor="let gender of genders" [value]="gender">{{ gender }}</option>
+    </select>
+  </div>
   <div class="mb-3">
     <label for="formFile" class="form-label">Profile Picture</label>
     <input class="form-control" type="file" id="formFile"
