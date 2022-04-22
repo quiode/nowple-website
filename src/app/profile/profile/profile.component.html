@@ -14,7 +14,39 @@
         <i (click)="fileSelect.click()" *ngIf="isPrivateProfile()" id="editIcon" class="bi bi-pencil-square"
           style="cursor: pointer;"></i>
       </div>
-      <div
+      <div class="my-2" *ngIf="profile?.gender">
+        <div class="row mx-5">
+          <button class="col btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#personalInfo"
+            aria-expanded="false" aria-controls="personalInfo">
+            Personal Information
+          </button>
+          <i *ngIf="isPrivateProfile()" class="col-1 bi bi-pencil-square fs-2" style="cursor: pointer;"
+            [ngClass]="editingPersonal ? 'text-danger' : 'text-dark'" (click)="editingPersonal = !editingPersonal"></i>
+          <i class="col-1 bi bi-send fs-2 ms-2 text-success" style="cursor: pointer;"
+            [style.display]="editingPersonal ? 'initial' : 'none'" (click)="submitPersonal()"></i>
+        </div>
+        <div class="collapse my-2" id="personalInfo">
+          <div *ngIf="!editingPersonal" class="container text-start">
+
+            <div class="row align-items-baseline" *ngIf="profile?.gender">
+              <div class="col-4">Gender:</div>
+              <div class="col">
+                TODO
+              </div>
+            </div>
+
+          </div>
+
+          <div *ngIf="editingPersonal" class="container">
+            <form [formGroup]="personalForm" (ngSubmit)="submitPersonal()">
+              <div class="row">
+                TODO
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="my-2"
         *ngIf="profile?.interests?.civil || profile?.interests?.diplomatic || profile?.interests?.economic || profile?.interests?.society || profile?.interests?.ideology">
         <div class="row mx-5">
           <button class="col btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample"

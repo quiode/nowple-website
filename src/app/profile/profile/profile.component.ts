@@ -7,7 +7,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
 import { ModalService } from '../../shared/modal.service';
 import { GeneralService } from '../../shared/general.service';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Gender } from '../../shared/constants/genders';
 
 @Component({
   selector: 'app-profile',
@@ -15,15 +16,24 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
+  readonly genders = Object.values(Gender);
+  readonly initialSelectValue = 'Select your Gender';
   profile?: User;
   uuid: string;
   editingPolitics = false;
+  editingPersonal = false;
   profilePicture: SafeUrl = environment.defaultProfilePicture;
   politicsForm = new FormGroup({
     economic: new FormControl(''),
     diplomatic: new FormControl(''),
     civil: new FormControl(''),
     society: new FormControl(''),
+  });
+  personalForm = new FormGroup({
+    gender: new FormControl(this.initialSelectValue, [
+      Validators.required,
+      Validators.pattern(`^(?!${this.initialSelectValue}$).*`),
+    ]),
   });
 
   constructor(
@@ -65,6 +75,9 @@ export class ProfileComponent implements OnInit {
             if (this.profile.interests.society) {
               this.politicsForm.patchValue({ society: this.profile.interests.society });
             }
+          }
+          if (this.profile.gender) {
+            this.personalForm.patchValue({ gender: this.profile.gender });
           }
         }
       });
@@ -127,6 +140,10 @@ export class ProfileComponent implements OnInit {
       .then(() => {
         this.router.navigate([''], { relativeTo: this.route });
       });
+  }
+
+  submitPersonal() {
+    alert('TODO');
   }
 
   blockUser() {
