@@ -22,8 +22,9 @@
           </button>
           <i *ngIf="isPrivateProfile()" class="col-1 bi bi-pencil-square fs-2" style="cursor: pointer;"
             [ngClass]="editingPersonal ? 'text-danger' : 'text-dark'" (click)="editingPersonal = !editingPersonal"></i>
-          <i class="col-1 bi bi-send fs-2 ms-2 text-success" style="cursor: pointer;"
-            [style.display]="editingPersonal ? 'initial' : 'none'" (click)="submitPersonal()"></i>
+          <i class="col-1 bi bi-send fs-2 ms-2" style="cursor: pointer;"
+            [style.display]="editingPersonal ? 'initial' : 'none'" (click)="submitPersonal()"
+            [ngClass]="personalForm.valid ? 'text-success' : 'text-danger'"></i>
         </div>
         <div class="collapse my-2" id="personalInfo">
           <div *ngIf="!editingPersonal" class="container text-start">
@@ -31,7 +32,7 @@
             <div class="row align-items-baseline" *ngIf="profile?.gender">
               <div class="col-4">Gender:</div>
               <div class="col">
-                TODO
+                {{ profile?.gender }}
               </div>
             </div>
 
@@ -40,7 +41,13 @@
           <div *ngIf="editingPersonal" class="container">
             <form [formGroup]="personalForm" (ngSubmit)="submitPersonal()">
               <div class="row">
-                TODO
+                <div class="col">
+                  <select [ngClass]="personalForm.get('gender')?.invalid ? 'is-invalid' : 'is-valid'"
+                    formControlName="gender" aria-label="Preferred Gender Select" class="form-select" name="gender">
+                    <option selected>{{ initialSelectValue }}</option>
+                    <option *ngFor="let gender of genders" [value]="gender">{{ gender }}</option>
+                  </select>
+                </div>
               </div>
             </form>
           </div>
@@ -55,8 +62,9 @@
           </button>
           <i *ngIf="isPrivateProfile()" class="col-1 bi bi-pencil-square fs-2" style="cursor: pointer;"
             [ngClass]="editingPolitics ? 'text-danger' : 'text-dark'" (click)="editingPolitics = !editingPolitics"></i>
-          <i class="col-1 bi bi-send fs-2 ms-2 text-success" style="cursor: pointer;"
-            [style.display]="editingPolitics ? 'initial' : 'none'" (click)="submitPolitics()"></i>
+          <i class="col-1 bi bi-send fs-2 ms-2" [ngClass]="politicsForm.valid ? 'text-success' : 'text-danger'"
+            style="cursor: pointer;" [style.display]="editingPolitics ? 'initial' : 'none'"
+            (click)="submitPolitics()"></i>
         </div>
         <div class="collapse my-2" id="collapseExample">
           <div *ngIf="!editingPolitics" class="container text-start">

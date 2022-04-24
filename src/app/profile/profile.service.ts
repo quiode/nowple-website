@@ -114,4 +114,17 @@ export class ProfileService {
       });
     });
   }
+
+  updateProfile(user: User): Promise<User> {
+    return new Promise<User>((resolve, reject) => {
+      this.httpClient.patch<User>(environment.backendUrl + '/user', user).subscribe({
+        next: (data: User) => {
+          resolve(data);
+        },
+        error: (err: HttpErrorResponse) => {
+          reject(err.statusText);
+        },
+      });
+    });
+  }
 }

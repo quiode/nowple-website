@@ -122,6 +122,11 @@ export class ProfileComponent implements OnInit {
   }
 
   submitPolitics() {
+    if (this.politicsForm.invalid) {
+      this.modalService.showAlert('Form is invalid');
+      return;
+    }
+
     this.editingPolitics = false;
 
     const updatetInterests: Interests = {
@@ -134,8 +139,8 @@ export class ProfileComponent implements OnInit {
 
     this.profileService
       .updateInterests(updatetInterests)
-      .catch((err) => {
-        this.modalService.showAlert(err.message);
+      .catch((err: string) => {
+        this.modalService.showAlert(err);
       })
       .then(() => {
         this.router.navigate([''], { relativeTo: this.route });
@@ -143,7 +148,31 @@ export class ProfileComponent implements OnInit {
   }
 
   submitPersonal() {
-    alert('TODO');
+    if (this.personalForm.invalid) {
+      this.modalService.showAlert('Form is invalid');
+      return;
+    }
+
+    if (!this.profile) {
+      this.modalService.showAlert('Profile not found');
+      return;
+    }
+
+    this.editingPersonal = false;
+
+    const updateProfile: User = {
+      ...this.profile,
+      gender: this.personalForm.get('gender')?.value || this.profile.gender,
+    };
+
+    this.profileService.updateProfile(updateProfile).then(
+      (user) => {
+        this.router.navigate([''], { relativeTo: this.route });
+      },
+      (err: string) => {
+        this.modalService.showAlert(err);
+      }
+    );
   }
 
   blockUser() {
