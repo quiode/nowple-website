@@ -19,7 +19,7 @@
   </div>
 </div>
 
-<div #container class="container-fluid fs-2" style="position: fixed;z-index: -1;overflow: auto;">
+<div #container class="container-fluid fs-2" style="position: absolute;z-index: -1;overflow: auto;">
   <form [formGroup]="settingsForm" class="container p-2 text-center" (ngSubmit)="onSubmit()">
     <div *ngIf="!submitting && !gettingSettings" class="container">
       <div class="row">
@@ -84,7 +84,7 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row my-2">
         <button *ngIf="settingsForm.dirty && !submitting && !gettingSettings" class="btn btn-primary"
           [disabled]="settingsForm.pristine && settingsForm.invalid">Submit</button>
         <div class="col" *ngIf="settingsForm.dirty && submitting || gettingSettings">
