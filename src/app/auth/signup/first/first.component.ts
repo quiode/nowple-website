@@ -38,7 +38,7 @@ export class FirstComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.signupService.signUpData.data1) {
+    if (this.signupService.signUpData.data1 && this.signupService.getProfilePicture()) {
       this.form.markAllAsTouched();
     }
   }
