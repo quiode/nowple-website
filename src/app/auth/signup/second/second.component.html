@@ -3,23 +3,23 @@
     <label class="form-label">Economic</label>
     <i class="bi bi-info-circle mx-2" (click)="showPoliticlaInfo()" style="cursor: pointer;"></i>
     <input class="form-range" type="range" formControlName="economic"
-      [ngClass]="form.get('economic')?.invalid ? 'is-invalid' : 'is-valid'" min="0" max="100">
+      [ngClass]="form.get('economic')?.invalid ? 'is-invalid' : 'is-valid'" min="1" max="100" step="1">
 
     <label class="form-label">Diplomatic</label>
     <i class="bi bi-info-circle mx-2" (click)="showPoliticlaInfo()" style="cursor: pointer;"></i>
     <input class="form-range" type="range" formControlName="diplomatic"
-      [ngClass]="form.get('diplomatic')?.invalid ? 'is-invalid' : 'is-valid'" min="0" max="100">
+      [ngClass]="form.get('diplomatic')?.invalid ? 'is-invalid' : 'is-valid'" min="1" max="100" step="1">
 
     <label class="form-label">Civil</label>
     <i class="bi bi-info-circle mx-2" (click)="showPoliticlaInfo()" style="cursor: pointer;"></i>
 
     <input class="form-range" type="range" formControlName="civil"
-      [ngClass]="form.get('civil')?.invalid ? 'is-invalid' : 'is-valid'" min="0" max="100">
+      [ngClass]="form.get('civil')?.invalid ? 'is-invalid' : 'is-valid'" min="1" max="100" step="1">
 
     <label class="form-label">Society</label>
     <i class="bi bi-info-circle mx-2" (click)="showPoliticlaInfo()" style="cursor: pointer;"></i>
     <input class="form-range" type="range" formControlName="society"
-      [ngClass]="form.get('society')?.invalid ? 'is-invalid' : 'is-valid'" min="0" max="100">
+      [ngClass]="form.get('society')?.invalid ? 'is-invalid' : 'is-valid'" min="1" max="100" step="1">
     <div>
     </div>
   </div>

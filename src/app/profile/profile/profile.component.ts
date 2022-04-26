@@ -24,10 +24,22 @@ export class ProfileComponent implements OnInit {
   editingPersonal = false;
   profilePicture: SafeUrl = environment.defaultProfilePicture;
   politicsForm = new FormGroup({
-    economic: new FormControl(''),
-    diplomatic: new FormControl(''),
-    civil: new FormControl(''),
-    society: new FormControl(''),
+    economic: new FormControl(0, [
+      Validators.min(1),
+      Validators.max(100),
+    ]),
+    diplomatic: new FormControl(0, [
+      Validators.min(1),
+      Validators.max(100),
+    ]),
+    civil: new FormControl(0, [
+      Validators.min(1),
+      Validators.max(100),
+    ]),
+    society: new FormControl(0, [
+      Validators.min(1),
+      Validators.max(100),
+    ]),
   });
   personalForm = new FormGroup({
     gender: new FormControl(this.initialSelectValue, [

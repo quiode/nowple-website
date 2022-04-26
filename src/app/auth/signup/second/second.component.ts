@@ -12,19 +12,19 @@ import { ModalService } from '../../../shared/modal.service';
 export class SecondComponent implements OnInit {
   form = new FormGroup({
     economic: new FormControl(this.signupService.signUpData.data2?.economic || 50, [
-      Validators.min(0),
+      Validators.min(1),
       Validators.max(100),
     ]),
     diplomatic: new FormControl(this.signupService.signUpData.data2?.diplomatic || 50, [
-      Validators.min(0),
+      Validators.min(1),
       Validators.max(100),
     ]),
     civil: new FormControl(this.signupService.signUpData.data2?.civil || 50, [
-      Validators.min(0),
+      Validators.min(1),
       Validators.max(100),
     ]),
     society: new FormControl(this.signupService.signUpData.data2?.society || 50, [
-      Validators.min(0),
+      Validators.min(1),
       Validators.max(100),
     ]),
   });

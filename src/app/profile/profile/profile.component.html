@@ -74,7 +74,7 @@
               <div class="col">
                 <div class="progress">
                   <div class="progress-bar" role="progressbar" [style.width.%]="profile?.interests?.civil"
-                    [attr.aria-valuenow]="profile?.interests?.civil" aria-valuemin="0" aria-valuemax="100">
+                    [attr.aria-valuenow]="profile?.interests?.civil" aria-valuemin="1" aria-valuemax="100">
                     {{ profile?.interests?.civil }}%</div>
                 </div>
               </div>
@@ -85,7 +85,7 @@
               <div class="col">
                 <div class="progress">
                   <div class="progress-bar" role="progressbar" [style.width.%]="profile?.interests?.diplomatic"
-                    [attr.aria-valuenow]="profile?.interests?.diplomatic" aria-valuemin="0" aria-valuemax="100">
+                    [attr.aria-valuenow]="profile?.interests?.diplomatic" aria-valuemin="1" aria-valuemax="100">
                     {{ profile?.interests?.diplomatic }}%</div>
                 </div>
               </div>
@@ -96,7 +96,7 @@
               <div class="col">
                 <div class="progress">
                   <div class="progress-bar" role="progressbar" [style.width.%]="profile?.interests?.economic"
-                    [attr.aria-valuenow]="profile?.interests?.economic" aria-valuemin="0" aria-valuemax="100">
+                    [attr.aria-valuenow]="profile?.interests?.economic" aria-valuemin="1" aria-valuemax="100">
                     {{ profile?.interests?.economic }}%</div>
                 </div>
               </div>
@@ -107,7 +107,7 @@
               <div class="col">
                 <div class="progress">
                   <div class="progress-bar" role="progressbar" [style.width.%]="profile?.interests?.society"
-                    [attr.aria-valuenow]="profile?.interests?.society" aria-valuemin="0" aria-valuemax="100">
+                    [attr.aria-valuenow]="profile?.interests?.society" aria-valuemin="1" aria-valuemax="100">
                     {{ profile?.interests?.society }}%</div>
                 </div>
               </div>
@@ -126,19 +126,23 @@
             <form [formGroup]="politicsForm" (ngSubmit)="submitPolitics()">
               <div class="row">
                 <label for="civil" class="form-label">Civil</label>
-                <input type="range" class="form-range" id="civil" formControlName="civil">
+                <input type="range" class="form-range" id="civil" formControlName="civil" min="1" max="100" step="1"
+                  step="1">
               </div>
               <div class="row">
                 <label for="diplomatic" class="form-label">Diplomatic</label>
-                <input type="range" class="form-range" id="diplomatic" formControlName="diplomatic">
+                <input type="range" class="form-range" id="diplomatic" formControlName="diplomatic" min="1" max="100"
+                  step="1" step="1">
               </div>
               <div class="row">
                 <label for="economic" class="form-label">Economic</label>
-                <input type="range" class="form-range" id="economic" formControlName="economic">
+                <input type="range" class="form-range" id="economic" formControlName="economic" min="1" max="100"
+                  step="1">
               </div>
               <div class="row">
                 <label for="society" class="form-label">Society</label>
-                <input type="range" class="form-range" id="society" formControlName="society">
+                <input type="range" class="form-range" id="society" formControlName="society" min="1" max="100"
+                  step="1">
               </div>
             </form>
           </div>
