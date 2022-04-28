@@ -44,7 +44,7 @@
                 <div class="col">
                   <select [ngClass]="personalForm.get('gender')?.invalid ? 'is-invalid' : 'is-valid'"
                     formControlName="gender" aria-label="Preferred Gender Select" class="form-select" name="gender">
-                    <option selected>{{ initialSelectValue }}</option>
+                    <option disabled selected>{{ initialSelectValue }}</option>
                     <option *ngFor="let gender of genders" [value]="gender">{{ gender }}</option>
                   </select>
                 </div>
