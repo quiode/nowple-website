@@ -5,4 +5,5 @@ export interface Chat {
   user: User;
   lastMessage?: Message;
   isMatch?: boolean;
+  isPending?: boolean;
 }

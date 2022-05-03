@@ -28,8 +28,6 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   chats: Chat[] = [];
   profilePicture: SafeUrl = environment.defaultProfilePicture;
   observer?: ResizeObserver;
-  displayMatches = true;
-  displayOther = true;
 
   constructor(
     private authService: AuthService,
@@ -89,13 +87,5 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.observer) {
       this.observer.disconnect();
     }
-  }
-
-  changeDisplayMatches() {
-    this.displayMatches = !this.displayMatches;
-  }
-
-  changeDisplayOther() {
-    this.displayOther = !this.displayOther;
   }
 }

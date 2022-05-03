@@ -27,22 +27,28 @@
     </div>
   </div>
   <div #container class="row" style="position: relative;">
-    <div (click)="changeDisplayMatches" style="cursor: pointer;"
-      class="col text-danger text-center fs-1 border-danger border-top border-bottom m-2">
+    <div style="cursor: pointer;" class="col text-danger text-center fs-1 border-danger border-top border-bottom m-2">
       Matches
     </div>
-    <div class="p-0 m-0" *ngIf="displayMatches">
+    <div class="p-0 m-0">
       <div class="p-0 m-0" *ngFor="let chat of chats">
         <app-message [chat]="chat" *ngIf="chat.isMatch" class="hover-color"></app-message>
       </div>
     </div>
-    <div (click)="changeDisplayOther" style="cursor: pointer;"
-      class="col text-danger text-center fs-1 border-danger border-top border-bottom m-2">
+    <div style="cursor: pointer;" class="col text-danger text-center fs-1 border-danger border-top border-bottom m-2">
+      Pending
+    </div>
+    <div class="p-0 m-0">
+      <div class="p-0 m-0" *ngFor="let chat of chats">
+        <app-message [chat]="chat" *ngIf="chat.isPending" class="hover-color"></app-message>
+      </div>
+    </div>
+    <div style="cursor: pointer;" class="col text-danger text-center fs-1 border-danger border-top border-bottom m-2">
       Other chats
     </div>
-    <div class="p-0 m-0" *ngIf="displayOther">
+    <div class="p-0 m-0">
       <div class="p-0 m-0" *ngFor="let chat of chats">
-        <app-message [chat]="chat" *ngIf="!chat.isMatch" class="hover-color"></app-message>
+        <app-message [chat]="chat" *ngIf="!chat.isMatch && !chat.isPending" class="hover-color"></app-message>
       </div>
     </div>
   </div>
