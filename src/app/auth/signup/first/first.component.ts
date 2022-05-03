@@ -43,6 +43,13 @@ export class FirstComponent implements OnInit {
     if (this.signupService.signUpData.data1) {
       this.form.markAllAsTouched();
     }
+
+    window.navigator.geolocation.getCurrentPosition((position) => {
+      this.form.patchValue({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      });
+    });
   }
 
   next() {
