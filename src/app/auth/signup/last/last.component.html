@@ -52,7 +52,7 @@
 
   <div class="row">
     <div class="col">
-      <label for="preferredGender" class="form-label">Preferred Gender (can me multiple)</label>
+      <label for="preferredGender" class="form-label">Preferred Gender (can be multiple)</label>
       <select formControlName="preferredGender" aria-label="Preferred Gender Select" class="form-select"
         name="preferredGender" multiple>
         <option *ngFor="let gender of genders" [value]="gender">{{ gender }}</option>

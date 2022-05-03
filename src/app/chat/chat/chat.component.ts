@@ -7,21 +7,21 @@ import {
   AfterViewInit,
   Input,
 } from '@angular/core';
-import { Router, RouterState, ActivatedRoute, RouterStateSnapshot } from '@angular/router';
-import { HomeService } from '../../home/home.service';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Message } from '../../shared/classes/Message';
 import { MessageService } from '../../home/message/message.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ChatService } from '../chat.service';
 import { ModalService } from '../../shared/modal.service';
 import { environment } from '../../../environments/environment';
+import { OnDestroy } from '@angular/core';
 
 @Component({
   selector: 'app-cgat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss'],
 })
-export class ChatComponent implements OnInit, AfterViewInit {
+export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('top') top?: ElementRef<HTMLDivElement>;
   @ViewChild('bottom') bottom?: ElementRef<HTMLDivElement>;
   @ViewChild('container') container?: ElementRef<HTMLDivElement>;
@@ -34,6 +34,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   profilePicture: SafeUrl = environment.defaultProfilePicture;
   observer?: ResizeObserver;
   bottomObserver?: ResizeObserver;
+  matchMakeInterval?: any;
 
   constructor(
     private router: Router,
@@ -45,6 +46,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
     private renderer: Renderer2
   ) {
     this.uuid = this.route.snapshot.paramMap.get('id') || '';
+  }
+  ngOnDestroy(): void {
+    if (this.matchMakeInterval) {
+      clearInterval(this.matchMakeInterval);
+    }
   }
 
   ngOnInit(): void {
@@ -77,10 +83,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
         this.renderer.setStyle(
           this.container?.nativeElement,
           'height',
-          `${
-            window.innerHeight -
-            this.bottom.nativeElement.offsetHeight -
-            this.top.nativeElement.offsetHeight
+          `${window.innerHeight -
+          this.bottom.nativeElement.offsetHeight -
+          this.top.nativeElement.offsetHeight
           }px`
         );
       }
@@ -96,6 +101,30 @@ export class ChatComponent implements OnInit, AfterViewInit {
         this.renderer.setStyle(this.container?.nativeElement, 'bottom', `${space}px`);
       }
     });
+
+
+    // check if able to matchmake and if so ask if they want to
+    this.matchMakeInterval = setInterval(() => {
+      this.chatService.checkForMatchmake(this.uuid).then((match) => {
+        if (match) {
+          this.modalService.show({
+            title: 'Matchmaking',
+            message: 'You can this user. Would you like to matchmake?',
+            confirmText: 'Yes',
+            cancelText: 'Later',
+            type: 'info',
+            centered: true,
+            callBack: (result) => {
+              if (result == 'OK') {
+                this.chatService.matchmake(this.uuid).catch((err) => {
+                  this.modalService.showAlert(err);
+                });;
+              }
+            }
+          });
+        }
+      });
+    }, 1000 * 60 * 5);
   }
 
   ngAfterViewInit(): void {
@@ -112,10 +141,9 @@ export class ChatComponent implements OnInit, AfterViewInit {
       this.renderer.setStyle(
         this.container?.nativeElement,
         'height',
-        `${
-          window.innerHeight -
-          this.top.nativeElement.offsetHeight -
-          this.bottom.nativeElement.offsetHeight
+        `${window.innerHeight -
+        this.top.nativeElement.offsetHeight -
+        this.bottom.nativeElement.offsetHeight
         }px`
       );
       this.renderer.setStyle(

@@ -23,7 +23,7 @@ export class ChatService {
     private httpClient: HttpClient,
     private sseService: SseService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   async getUsername(id: string): Promise<string> {
     const response = this.httpClient.get<User>(environment.backendUrl + '/user/public/' + id);
@@ -77,11 +77,11 @@ export class ChatService {
     } else {
       const sse = this.sseService.observeMessages(
         environment.backendUrl +
-          '/messages/conversation/stream/' +
-          id +
-          '/' +
-          this.authService.getToken() +
-          '?ngsw-bypass=true'
+        '/messages/conversation/stream/' +
+        id +
+        '/' +
+        this.authService.getToken() +
+        '?ngsw-bypass=true'
       );
       const chat: Chat = {
         receiver: id,
@@ -110,5 +110,31 @@ export class ChatService {
 
   private sseStringToMessages(sse: string): Message[] {
     return JSON.parse(sse);
+  }
+
+  async checkForMatchmake(id: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.httpClient.get<boolean>(environment.backendUrl + '/matchmake/' + id).subscribe({
+        next: (data) => {
+          resolve(true);
+        },
+        error: (err) => {
+          resolve(false);
+        },
+      });
+    });
+  }
+
+  async matchmake(id: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.httpClient.post(environment.backendUrl + '/matchmake/' + id, {}).subscribe({
+        next: (data) => {
+          resolve();
+        },
+        error: (err) => {
+          reject(err);
+        },
+      });
+    });
   }
 }
