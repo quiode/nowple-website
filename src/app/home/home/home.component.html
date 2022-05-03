@@ -27,6 +27,23 @@
     </div>
   </div>
   <div #container class="row" style="position: relative;">
-    <app-message *ngFor="let chat of chats" [chat]="chat" class="hover-color"></app-message>
+    <div (click)="changeDisplayMatches" style="cursor: pointer;"
+      class="col text-danger text-center fs-1 border-danger border-top border-bottom m-2">
+      Matches
+    </div>
+    <div class="p-0 m-0" *ngIf="displayMatches">
+      <div class="p-0 m-0" *ngFor="let chat of chats">
+        <app-message [chat]="chat" *ngIf="chat.isMatch" class="hover-color"></app-message>
+      </div>
+    </div>
+    <div (click)="changeDisplayOther" style="cursor: pointer;"
+      class="col text-danger text-center fs-1 border-danger border-top border-bottom m-2">
+      Other chats
+    </div>
+    <div class="p-0 m-0" *ngIf="displayOther">
+      <div class="p-0 m-0" *ngFor="let chat of chats">
+        <app-message [chat]="chat" *ngIf="!chat.isMatch" class="hover-color"></app-message>
+      </div>
+    </div>
   </div>
 </div>

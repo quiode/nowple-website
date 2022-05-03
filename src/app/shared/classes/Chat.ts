@@ -4,4 +4,5 @@ import { Message } from './Message';
 export interface Chat {
   user: User;
   lastMessage?: Message;
+  isMatch?: boolean;
 }
