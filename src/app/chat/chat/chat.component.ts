@@ -104,14 +104,15 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
     // check if able to matchmake and if so ask if they want to
-    this.matchMakeInterval = setInterval(() => {
+    // create function to first call it and then call it every 5 minutes
+    const execFunc = () => {
       this.chatService.checkForMatchmake(this.uuid).then((match) => {
         if (match) {
           this.modalService.show({
             title: 'Matchmaking',
-            message: 'You can this user. Would you like to matchmake?',
+            message: 'You can match this user. Would you like to matchmake?',
             confirmText: 'Yes',
-            cancelText: 'Later',
+            cancelText: 'No (Block)',
             type: 'info',
             centered: true,
             callBack: (result) => {
@@ -119,12 +120,22 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.chatService.matchmake(this.uuid).catch((err) => {
                   this.modalService.showAlert(err);
                 });;
+              } else if (result == 'CANCEL') {
+                this.chatService.block(this.uuid).catch((err) => {
+                  this.modalService.showAlert(err);
+                }).finally(() => {
+                  this.router.navigate(['']);
+                });;
               }
             }
           });
         }
       });
-    }, 1000 * 60 * 5);
+    }
+
+    execFunc();
+
+    this.matchMakeInterval = setInterval(execFunc, 1000 * 60 * 5);
   }
 
   ngAfterViewInit(): void {

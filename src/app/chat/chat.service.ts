@@ -114,7 +114,7 @@ export class ChatService {
 
   async checkForMatchmake(id: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      this.httpClient.get<boolean>(environment.backendUrl + '/matchmake/' + id).subscribe({
+      this.httpClient.get<boolean>(environment.backendUrl + '/user/canMatchmake/' + id).subscribe({
         next: (data) => {
           resolve(true);
         },
@@ -127,13 +127,26 @@ export class ChatService {
 
   async matchmake(id: string): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.httpClient.post(environment.backendUrl + '/matchmake/' + id, {}).subscribe({
+      this.httpClient.post(environment.backendUrl + '/user/matchmake/' + id, {}).subscribe({
         next: (data) => {
           resolve();
         },
         error: (err) => {
           reject(err);
         },
+      });
+    });
+  }
+
+  async block(id: string): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.httpClient.post(environment.backendUrl + '/user/block/' + id, {}).subscribe({
+        next: (data) => {
+          resolve();
+        },
+        error: (err) => {
+          reject(err);
+        }
       });
     });
   }
