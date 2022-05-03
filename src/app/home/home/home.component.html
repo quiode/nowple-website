@@ -28,7 +28,8 @@
   </div>
   <div #container class="row" style="position: relative;">
     <div style="cursor: pointer;" class="col text-danger text-center fs-1 border-danger border-top border-bottom m-2">
-      Matches
+      <span>Matches</span>
+      <i class="bi bi-info-circle mx-2" (click)="showMatchesInfo()" style="cursor: pointer;"></i>
     </div>
     <div class="p-0 m-0">
       <div class="p-0 m-0" *ngFor="let chat of chats">
@@ -36,7 +37,8 @@
       </div>
     </div>
     <div style="cursor: pointer;" class="col text-danger text-center fs-1 border-danger border-top border-bottom m-2">
-      Pending
+      <span>Pending</span>
+      <i class="bi bi-info-circle mx-2" (click)="showPendingInfo()" style="cursor: pointer;"></i>
     </div>
     <div class="p-0 m-0">
       <div class="p-0 m-0" *ngFor="let chat of chats">
@@ -44,7 +46,8 @@
       </div>
     </div>
     <div style="cursor: pointer;" class="col text-danger text-center fs-1 border-danger border-top border-bottom m-2">
-      Other chats
+      <span>Contacts</span>
+      <i class="bi bi-info-circle mx-2" (click)="showContactsInfo()" style="cursor: pointer;"></i>
     </div>
     <div class="p-0 m-0">
       <div class="p-0 m-0" *ngFor="let chat of chats">

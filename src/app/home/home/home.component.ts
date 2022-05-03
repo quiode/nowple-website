@@ -13,6 +13,7 @@ import { HomeService } from '../home.service';
 import { Chat } from '../../shared/classes/Chat';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { environment } from '../../../environments/environment';
+import { ModalService } from '../../shared/modal.service';
 
 @Component({
   selector: 'app-home',
@@ -34,7 +35,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private homeService: HomeService,
     private sanitizer: DomSanitizer,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private modaleService: ModalService
   ) { }
 
   ngOnInit(): void {
@@ -87,5 +89,17 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.observer) {
       this.observer.disconnect();
     }
+  }
+
+  showPendingInfo() {
+    this.modaleService.showInfo('You or your partner didn\'t accept the match request yet.', 'Pending');
+  }
+
+  showMatchesInfo() {
+    this.modaleService.showInfo('You and your partner have chosen to match with each other.', 'Matches');
+  }
+
+  showContactsInfo() {
+    this.modaleService.showInfo('You did just match your partner and soon have to choose if you want to continue chatting.', 'Contacts');
   }
 }
