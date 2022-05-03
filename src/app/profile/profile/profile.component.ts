@@ -9,6 +9,7 @@ import { ModalService } from '../../shared/modal.service';
 import { GeneralService } from '../../shared/general.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Gender } from '../../shared/constants/genders';
+import * as haversine from 'haversine';
 
 @Component({
   selector: 'app-profile',
@@ -46,7 +47,10 @@ export class ProfileComponent implements OnInit {
       Validators.required,
       Validators.pattern(`^(?!${this.initialSelectValue}$).*`),
     ]),
+    locationX: new FormControl(0),
+    locationY: new FormControl(0),
   });
+  distance?: number;
 
   constructor(
     private profileService: ProfileService,
@@ -55,7 +59,6 @@ export class ProfileComponent implements OnInit {
     private router: Router,
     private modalService: ModalService,
     private generalService: GeneralService,
-    private sanitizer: DomSanitizer
   ) {
     this.uuid = this.route.snapshot.paramMap.get('id') || '';
   }
@@ -90,6 +93,17 @@ export class ProfileComponent implements OnInit {
           }
           if (this.profile.gender) {
             this.personalForm.patchValue({ gender: this.profile.gender });
+          }
+          if (this.profile.location) {
+            this.personalForm.patchValue({
+              locationX: this.profile.location.coordinates[0],
+              locationY: this.profile.location.coordinates[1],
+            });
+            this.calcDistance().then((distance) => {
+              if (distance) {
+                this.distance = Math.round(distance * 100) / 100;
+              }
+            });
           }
         }
       });
@@ -172,9 +186,19 @@ export class ProfileComponent implements OnInit {
 
     this.editingPersonal = false;
 
+    let newLocation = this.profile.location;
+
+    if (typeof this.personalForm.get('locationX')?.value === 'number' && typeof this.personalForm.get('locationY')?.value === 'number') {
+      newLocation = {
+        type: 'Point',
+        coordinates: [this.personalForm.get('locationX')?.value, this.personalForm.get('locationY')?.value],
+      };
+    }
+
     const updateProfile: User = {
       ...this.profile,
       gender: this.personalForm.get('gender')?.value || this.profile.gender,
+      location: newLocation
     };
 
     this.profileService.updateProfile(updateProfile).then(
@@ -196,5 +220,34 @@ export class ProfileComponent implements OnInit {
         this.modalService.showAlert(err);
       }
     );
+  }
+
+  openMap() {
+    window.open(`https://www.openstreetmap.org/directions?from=${this.profile?.location?.coordinates[0]},${this.profile?.location?.coordinates[1]}`, '_blank');
+  }
+
+  async calcDistance(): Promise<number | undefined> {
+    const position: GeolocationPosition | undefined = await new Promise((resolve) => {
+      navigator.geolocation.getCurrentPosition((position) => {
+        resolve(position);
+      }, (err) => {
+        resolve(undefined);
+      });
+    });
+    if (position == undefined) {
+      return undefined;
+    }
+    if (this.profile?.location?.coordinates[0] == undefined || this.profile?.location?.coordinates[1] == undefined) {
+      return undefined;
+    }
+    const start: haversine.CoordinateLongitudeLatitude = { latitude: position.coords.latitude, longitude: position.coords.longitude };
+    const end: haversine.CoordinateLongitudeLatitude = { latitude: this.profile?.location?.coordinates[0], longitude: this.profile?.location?.coordinates[1] };
+    return haversine(start, end)
+  }
+
+  getCords(): number[] {
+    const x = this.profile?.location?.coordinates[0] || 0;
+    const y = this.profile?.location?.coordinates[1] || 0;
+    return [Math.round(x * 100) / 100, Math.round(y * 100) / 100];
   }
 }

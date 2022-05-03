@@ -14,7 +14,7 @@
         <i (click)="fileSelect.click()" *ngIf="isPrivateProfile()" id="editIcon" class="bi bi-pencil-square"
           style="cursor: pointer;"></i>
       </div>
-      <div class="my-2" *ngIf="profile?.gender">
+      <div class="my-2" *ngIf="profile?.gender || profile?.location">
         <div class="row mx-5">
           <button class="col btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#personalInfo"
             aria-expanded="false" aria-controls="personalInfo">
@@ -36,6 +36,23 @@
               </div>
             </div>
 
+            <div class="row align-items-baseline" *ngIf="profile?.location?.coordinates && isPrivateProfile()">
+              <div class="col-4">Location:</div>
+              <div class="col">
+                {{ getCords()}}
+              </div>
+              <div (click)="openMap()" style="cursor: pointer;" class="col">
+                <i class="bi bi-map mx-2 fs-3"></i>
+              </div>
+            </div>
+
+            <div class="row align-items-baseline" *ngIf="profile?.location && isPublicProfile()">
+              <div class="col-4">Distance:</div>
+              <div class="col">
+                {{ distance }} km
+              </div>
+            </div>
+
           </div>
 
           <div *ngIf="editingPersonal" class="container">
@@ -47,6 +64,21 @@
                     <option disabled selected>{{ initialSelectValue }}</option>
                     <option *ngFor="let gender of genders" [value]="gender">{{ gender }}</option>
                   </select>
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <label for="name" class="form-label">Input your Latitude</label>
+                  <input type="number" [ngClass]="personalForm.get('locationX')?.invalid ? 'is-invalid' : 'is-valid'"
+                    formControlName="locationX" class="form-control" name="locationX" />
+                </div>
+
+                <div class="col">
+                  <label for="name" class="form-label">Input your Longitude</label>
+                  <input type="number" [ngClass]="personalForm.get('locationY')?.invalid ? 'is-invalid' : 'is-valid'"
+                    formControlName="locationY" class="form-control" name="locationY" />
                 </div>
               </div>
             </form>

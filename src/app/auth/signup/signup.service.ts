@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Gender } from '../../shared/constants/genders';
+import { Point } from 'geojson';
 
 export interface SignUpData {
   data1?: FormData1;
@@ -12,6 +13,7 @@ export interface FormData1 {
   username: string;
   password: string;
   gender: Gender;
+  location: Point;
 }
 
 export interface FormData2 {
@@ -37,7 +39,7 @@ export class SignupService {
   signUpData: SignUpData = {};
   private profilePicture?: File;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   async submit() {
     if (

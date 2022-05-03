@@ -28,6 +28,8 @@ export class FirstComponent implements OnInit {
       this.signupService.signUpData.data1?.gender || this.initialSelectValue,
       [Validators.required, Validators.pattern(`^(?!${this.initialSelectValue}$).*`)]
     ),
+    latitude: new FormControl(this.signupService.signUpData.data1?.location.coordinates[0] || 0, Validators.pattern('[+-]?([0-9]*[.])?[0-9]+')),
+    longitude: new FormControl(this.signupService.signUpData.data1?.location.coordinates[1] || 0, Validators.pattern('[+-]?([0-9]*[.])?[0-9]+')),
   });
 
   constructor(
@@ -35,7 +37,7 @@ export class FirstComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private modalService: ModalService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (this.signupService.signUpData.data1) {
@@ -44,13 +46,20 @@ export class FirstComponent implements OnInit {
   }
 
   next() {
-    if (this.form.valid) {
+    const latitude = this.form.get('latitude')?.value;
+    const longitude = this.form.get('longitude')?.value;
+    if (this.form.valid && typeof latitude === 'number' && typeof longitude === 'number') {
       const username = this.form.get('username')?.value;
       const password = this.form.get('password')?.value;
       const gender = this.form.get('gender')?.value;
 
       if (username && password) {
-        this.signupService.set1({ username, password, gender });
+        this.signupService.set1({
+          username, password, gender, location: {
+            type: 'Point',
+            coordinates: [latitude, longitude]
+          }
+        });
         this.router.navigate(['../2'], { relativeTo: this.route });
       }
     }

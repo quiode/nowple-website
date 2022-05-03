@@ -12,6 +12,18 @@
       <option *ngFor="let gender of genders" [value]="gender">{{ gender }}</option>
     </select>
   </div>
+  <div class="row">
+    <div class="col">
+      <label class="form-label">Latitude</label>
+      <input class="form-control" type="number" formControlName="latitude"
+        [ngClass]="form.get('latitude')?.invalid ? 'is-invalid' : 'is-valid'">
+    </div>
+    <div class="col">
+      <label class="form-label">Longitude</label>
+      <input class="form-control" type="number" formControlName="longitude"
+        [ngClass]="form.get('longitude')?.invalid ? 'is-invalid' : 'is-valid'">
+    </div>
+  </div>
   <div class="mb-3">
     <label for="formFile" class="form-label">Profile Picture</label>
     <input class="form-control" type="file" id="formFile"
