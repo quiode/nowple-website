@@ -121,6 +121,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
 
   darkmodeChange(e: Event) {
     // change body class
+    localStorage.setItem('darkmode', (e.target as HTMLInputElement).checked ? 'true' : 'false');
     if ((e.target as HTMLInputElement).checked) {
       document.body.classList.add('dark');
     } else {

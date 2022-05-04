@@ -7,12 +7,13 @@ import { Settings } from '../shared/classes/Settings';
   providedIn: 'root',
 })
 export class SettingsService {
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   async getSettings(): Promise<Settings> {
     return new Promise<Settings>((resolve, reject) => {
       this.httpClient.get<Settings>(environment.backendUrl + '/settings').subscribe({
         next: (settings) => {
+          localStorage.setItem('darkmode', settings.isDarkMode ? 'true' : 'false');
           resolve(settings);
         },
         error: (err: HttpErrorResponse) => {

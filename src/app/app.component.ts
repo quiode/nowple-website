@@ -42,7 +42,7 @@ export class AppComponent implements OnInit {
       }
     });
 
-    if (localStorage.getItem('darkmode')) {
+    if (localStorage.getItem('darkmode') === 'true') {
       document.body.classList.add('dark');
     } else {
       document.body.classList.remove('dark');
