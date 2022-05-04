@@ -43,9 +43,9 @@ export class AppComponent implements OnInit {
     });
 
     if (localStorage.getItem('darkmode')) {
-      document.body.classList.add('darkmode');
+      document.body.classList.add('dark');
     } else {
-      document.body.classList.remove('darkmode');
+      document.body.classList.remove('dark');
     }
   }
 }

@@ -1,10 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
-@import 'color-themes/light-mode.scss';
+@import 'variables.scss';
 
 @import "node_modules/bootstrap/scss/bootstrap";
 @import "node_modules/bootstrap-icons/font/bootstrap-icons.scss";
 
-@import 'color-themes/dark-mode.scss';
+@import 'dark-mode.scss'; // Dark mode
 
 // style
 body {

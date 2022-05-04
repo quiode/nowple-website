@@ -122,9 +122,9 @@ export class SettingsComponent implements OnInit, AfterViewInit {
   darkmodeChange(e: Event) {
     // change body class
     if ((e.target as HTMLInputElement).checked) {
-      document.body.classList.add('darkmode');
+      document.body.classList.add('dark');
     } else {
-      document.body.classList.remove('darkmode');
+      document.body.classList.remove('dark');
     }
   }
 }
