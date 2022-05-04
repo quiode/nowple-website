@@ -102,4 +102,16 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   showContactsInfo() {
     this.modaleService.showInfo('You did just match your partner and soon have to choose if you want to continue chatting.', 'Contacts');
   }
+
+  hasMatch(chat: Chat[]): boolean {
+    return chat.some(c => c.isMatch == true && c.isPending == false);
+  }
+
+  hasPending(chat: Chat[]): boolean {
+    return chat.some(c => c.isPending == true && c.isMatch == false);
+  }
+
+  hasContacts(chat: Chat[]): boolean {
+    return chat.some(c => c.isPending == false && c.isMatch == false);
+  }
 }
