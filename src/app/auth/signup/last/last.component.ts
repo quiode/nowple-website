@@ -22,7 +22,7 @@ export class LastComponent implements OnInit {
     reversedPoliticalView: new FormControl(
       this.signupService.signUpData.data3?.reversedPoliticalView != undefined ? this.signupService.signUpData.data3?.reversedPoliticalView : false
     ),
-    preferredGender: new FormControl(this.signupService.signUpData.data3?.preferredGender || 0),
+    preferredGender: new FormControl(this.signupService.signUpData.data3?.preferredGender || []),
     maxDistance: new FormControl(this.signupService.signUpData.data3?.maxDistance != undefined ? this.signupService.signUpData.data3?.maxDistance : 10, [Validators.min(0), Validators.max(1000)])
   });
 
