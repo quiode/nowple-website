@@ -18,7 +18,6 @@ export class AuthService {
     private httpClient: HttpClient,
     private jwtService: JwtHelperService,
     private router: Router,
-    private modalService: ModalService,
     private generalService: GeneralService
   ) {
     const token = this.getToken();

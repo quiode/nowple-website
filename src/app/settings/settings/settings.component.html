@@ -25,8 +25,8 @@
       <div class="row">
         <div class="col">
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" name="isDarkMode" formControlName="isDarkMode"
-              role="switch">
+            <input (change)="darkmodeChange($event)" class="form-check-input" type="checkbox" name="isDarkMode"
+              formControlName="isDarkMode" role="switch">
             <label class="form-label" for="isDarkMode">Darkmode</label>
           </div>
         </div>
