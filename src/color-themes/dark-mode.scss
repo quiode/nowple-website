@@ -1,0 +1,40 @@
+// darkmode (https://stackoverflow.com/questions/68667437/create-new-color-scheme-for-dark-light-mode-in-bootstrap-sass/68670276#68670276)
+@import "node_modules/bootstrap/scss/_functions.scss";
+@import "node_modules/bootstrap/scss/_variables.scss";
+@import "node_modules/bootstrap/scss/_mixins.scss";
+
+
+.dark {
+
+  /* redefine theme colors for dark theme */
+  $theme-colors: ("primary": $primary,
+      "secondary": $secondary,
+      "success": $success,
+      "danger": $danger,
+      "info": $indigo,
+      "dark": $dark,
+      "light": $light,
+    );
+
+  /* redefine theme color variables */
+  @each $color,
+  $value in $theme-colors {
+    --#{$variable-prefix}#{$color}: #{$value};
+  }
+
+  /* redefine theme color rgb vars (used for bg- colors) */
+  $theme-colors-rgb: map-loop($theme-colors, to-rgb, "$value");
+
+  @each $color,
+  $value in $theme-colors-rgb {
+    --#{$variable-prefix}#{$color}-rgb: #{$value};
+  }
+
+  $body-color: #eeeeee;
+  $body-bg: #263C5C;
+
+  --#{$variable-prefix}body-color: #{$body-color};
+  --#{$variable-prefix}body-bg: #{$body-bg};
+
+  @import "node_modules/bootstrap/scss/bootstrap";
+}

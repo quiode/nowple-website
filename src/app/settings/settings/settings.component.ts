@@ -117,4 +117,14 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       this.modalService.showAlert('Please fill out all fields');
     }
   }
+
+
+  darkmodeChange(e: Event) {
+    // change body class
+    if ((e.target as HTMLInputElement).checked) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }
 }

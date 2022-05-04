@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
   };
   @ViewChild('modalButton') modalButton?: ElementRef<HTMLButtonElement>;
 
-  constructor(private modalService: ModalService) {}
+  constructor(private modalService: ModalService) { }
 
   ngOnInit(): void {
     this.modalService.getShowModal().subscribe((state) => {
@@ -41,5 +41,11 @@ export class AppComponent implements OnInit {
         this.modalButton.nativeElement.click();
       }
     });
+
+    if (localStorage.getItem('darkmode')) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
   }
 }

@@ -2,8 +2,12 @@
   <div class="row">
     <div class="col">
       <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" name="darkmode" formControlName="darkmode" role="switch">
-        <label class="form-label" for="darkmode">Darkmode</label>
+        <input (change)="darkmodeChange($event)" class="form-check-input" type="checkbox" name="darkmode"
+          formControlName="darkmode" role="switch">
+        <label class="form-label" for="darkmode">
+          <span>Darkmode</span>
+          <abbr class="bi bi-exclamation-triangle mx-2 text-warning" title="Experimental"></abbr>
+        </label>
       </div>
     </div>
   </div>
