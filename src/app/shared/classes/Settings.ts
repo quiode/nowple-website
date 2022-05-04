@@ -7,4 +7,5 @@ export interface Settings {
   considerGender: boolean;
   reversedPoliticalView: boolean;
   preferredGender: Gender[];
+  maxDistance: number;
 }

@@ -30,6 +30,7 @@ export interface FormData3 {
   considerGender: boolean;
   reversedPoliticalView: boolean;
   preferredGender: Gender[];
+  maxDistance: number;
 }
 
 @Injectable({

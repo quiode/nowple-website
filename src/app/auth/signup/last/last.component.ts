@@ -13,16 +13,17 @@ import { Gender } from '../../../shared/constants/genders';
 export class LastComponent implements OnInit {
   readonly genders = Object.values(Gender);
   form = new FormGroup({
-    darkmode: new FormControl(this.signupService.signUpData.data3?.isDarkMode || false),
-    discoverable: new FormControl(this.signupService.signUpData.data3?.discoverable || true),
+    darkmode: new FormControl(this.signupService.signUpData.data3?.isDarkMode != undefined ? this.signupService.signUpData.data3?.isDarkMode : false),
+    discoverable: new FormControl(this.signupService.signUpData.data3?.discoverable != undefined ? this.signupService.signUpData.data3?.discoverable : true),
     considerPolitics: new FormControl(
-      this.signupService.signUpData.data3?.considerPolitics || true
+      this.signupService.signUpData.data3?.considerPolitics != undefined ? this.signupService.signUpData.data3?.considerPolitics : true
     ),
-    considerGender: new FormControl(this.signupService.signUpData.data3?.considerGender || true),
+    considerGender: new FormControl(this.signupService.signUpData.data3?.considerGender != undefined ? this.signupService.signUpData.data3?.considerGender : true),
     reversedPoliticalView: new FormControl(
-      this.signupService.signUpData.data3?.reversedPoliticalView || false
+      this.signupService.signUpData.data3?.reversedPoliticalView != undefined ? this.signupService.signUpData.data3?.reversedPoliticalView : false
     ),
-    preferredGender: new FormControl(this.signupService.signUpData.data3?.preferredGender || []),
+    preferredGender: new FormControl(this.signupService.signUpData.data3?.preferredGender || 0),
+    maxDistance: new FormControl(this.signupService.signUpData.data3?.maxDistance != undefined ? this.signupService.signUpData.data3?.maxDistance : 10, [Validators.min(0), Validators.max(1000)])
   });
 
   constructor(
@@ -30,7 +31,7 @@ export class LastComponent implements OnInit {
     private route: ActivatedRoute,
     private signupService: SignupService,
     private modalService: ModalService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (!this.signupService.signUpData.data2) {
@@ -49,6 +50,7 @@ export class LastComponent implements OnInit {
       const considerGender: boolean = this.form.get('considerGender')?.value;
       const reversedPoliticalView: boolean = this.form.get('reversedPoliticalView')?.value;
       const preferredGender: Gender[] = this.form.get('preferredGender')?.value;
+      const maxDistance: number = this.form.get('maxDistance')?.value
 
       if (
         darkmode != undefined &&
@@ -56,7 +58,8 @@ export class LastComponent implements OnInit {
         considerGender != undefined &&
         considerPolitics != undefined &&
         reversedPoliticalView != undefined &&
-        preferredGender != undefined
+        preferredGender != undefined &&
+        maxDistance != undefined
       ) {
         this.signupService.set3({
           isDarkMode: darkmode,
@@ -65,6 +68,7 @@ export class LastComponent implements OnInit {
           considerGender,
           reversedPoliticalView,
           preferredGender,
+          maxDistance,
         });
         this.signupService.submit().then(
           () => {

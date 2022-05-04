@@ -60,6 +60,17 @@
     </div>
   </div>
 
+  <hr>
+
+  <div class="row">
+    <label for="maxDistance" class="form-label">max Distance ({{ maxDistance.value == '0' ? 'disabled' :
+      maxDistance.value + ' km' }})</label>
+  </div>
+  <div class="row">
+    <input #maxDistance formControlName="maxDistance" type="range" class="form-range" id="maxDistance" min="0"
+      max="1000" step="1">
+  </div>
+
   <div class="row">
     <button class="btn btn-secondary col m-2" (click)="back()">Back</button>
     <button class="btn btn-primary col m-2" [disabled]="form.invalid || form.pristine">Submit</button>

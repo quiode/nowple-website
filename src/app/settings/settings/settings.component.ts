@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, Renderer2, ElementRef, ViewChild } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { Router, RouterState, ActivatedRoute } from '@angular/router';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SettingsService } from '../settings.service';
 import { ModalService } from '../../shared/modal.service';
 import { Gender } from '../../shared/constants/genders';
@@ -25,6 +25,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     considerGender: new FormControl(true),
     reversedPoliticalView: new FormControl(false),
     preferredGender: new FormControl([]),
+    maxDistance: new FormControl(5, [Validators.min(0), Validators.max(1000)]),
   });
 
   constructor(
@@ -34,7 +35,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     private renderer: Renderer2,
     private settingsService: SettingsService,
     private modalService: ModalService
-  ) {}
+  ) { }
 
   ngAfterViewInit(): void {
     this.observer = new ResizeObserver((entries) => {
@@ -60,6 +61,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
         considerGender: settings.considerGender,
         reversedPoliticalView: settings.reversedPoliticalView,
         preferredGender: settings.preferredGender,
+        maxDistance: settings.maxDistance,
       });
       this.gettingSettings = false;
     });
@@ -80,6 +82,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     const considerGender = this.settingsForm.get('considerGender');
     const reversedPoliticalView = this.settingsForm.get('reversedPoliticalView');
     const preferredGender = this.settingsForm.get('preferredGender');
+    const maxDistance = this.settingsForm.get('maxDistance');
 
     if (
       this.settingsForm.valid &&
@@ -89,7 +92,8 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       considerPolitics &&
       considerGender &&
       reversedPoliticalView &&
-      preferredGender
+      preferredGender &&
+      maxDistance
     ) {
       this.submitting = true;
       this.settingsService
@@ -100,6 +104,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
           considerGender: considerGender.value,
           reversedPoliticalView: reversedPoliticalView.value,
           preferredGender: preferredGender.value,
+          maxDistance: maxDistance.value,
         })
         .catch((e) => {
           this.modalService.showAlert(e as string);
