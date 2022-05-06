@@ -32,9 +32,10 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ### Dev
 
-`npm run tauri dev`
-Dev server has to be running on port 4200.
+`ng serve` will start a development server on port 4200.
+`npm run tauri dev` will start a development window.
 
 ## Build
 
-`npm run tauri build`
+`ng build` will build the website for production.
+`npm run tauri build` will build the app for production.
