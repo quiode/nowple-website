@@ -6,7 +6,8 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "tauri": "tauri"
   },
   "engines": {
     "node": "^14.19.1"
@@ -23,6 +24,7 @@
     "@angular/router": "~13.3.0",
     "@angular/service-worker": "~13.3.0",
     "@auth0/angular-jwt": "^5.0.2",
+    "@tauri-apps/api": "^1.0.0-rc.4",
     "@types/bootstrap": "^5.1.9",
     "@types/geojson": "^7946.0.8",
     "@types/haversine": "^1.1.5",
@@ -38,6 +40,7 @@
     "@angular-devkit/build-angular": "~13.3.0",
     "@angular/cli": "~13.3.0",
     "@angular/compiler-cli": "~13.3.0",
+    "@tauri-apps/cli": "^1.0.0-rc.9",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
     "jasmine-core": "~4.0.0",
