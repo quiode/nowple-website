@@ -1,5 +1,7 @@
 # NowpleWebsite
 
+![Nowple Logo](https://raw.githubusercontent.com/quiode/nowple/main/assets/Nowple.svg)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.0.
 
 ## Development server
@@ -25,3 +27,15 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Tauri
+
+### Dev
+
+`ng serve` will start a development server on port 4200.
+`npm run tauri dev` will start a development window.
+
+## Build
+
+`ng build` will build the website for production.
+`npm run tauri build` will build the app for production.
