@@ -1,10 +1,10 @@
 {
   "package": {
     "productName": "Nowple",
-    "version": "../package.json"
+    "version": "1.0.1"
   },
   "build": {
-    "distDir": "1.0.1",
+    "distDir": "../dist/nowple-website/",
     "devPath": "http://localhost:4200",
     "beforeDevCommand": "",
     "beforeBuildCommand": ""
