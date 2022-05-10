@@ -6,6 +6,7 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../../environments/environment';
 import { Ideology } from '../shared/constants/ideologies';
 import { ModalService } from '../shared/modal.service';
+import { Hobbies } from '../shared/constants/hobbies';
 
 export interface Interests {
   economic?: number;
@@ -17,6 +18,8 @@ export interface Interests {
   society?: number;
 
   ideology?: Ideology;
+
+  hobbies?: Hobbies[];
 }
 
 @Injectable({
@@ -28,7 +31,7 @@ export class ProfileService {
     private authService: AuthService,
     private sanitizer: DomSanitizer,
     private modalService: ModalService
-  ) {}
+  ) { }
 
   async getProfile(id: string): Promise<User> {
     let url = environment.backendUrl + '/user/';
@@ -115,11 +118,23 @@ export class ProfileService {
     });
   }
 
-  updateProfile(user: User): Promise<User> {
+  updateProfile(user: User): Promise<any> {
+    const interests = user.interests;
+
     return new Promise<User>((resolve, reject) => {
       this.httpClient.patch<User>(environment.backendUrl + '/user', user).subscribe({
         next: (data: User) => {
-          resolve(data);
+          if (interests) {
+            this.updateInterests(interests).catch(
+              (err) => {
+                reject(err);
+              }
+            ).then(() => {
+              resolve(data);
+            });
+          } else {
+            resolve(data);
+          }
         },
         error: (err: HttpErrorResponse) => {
           reject(err.statusText);

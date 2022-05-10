@@ -26,6 +26,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     reversedPoliticalView: new FormControl(false),
     preferredGender: new FormControl([]),
     maxDistance: new FormControl(5, [Validators.min(0), Validators.max(1000)]),
+    considerHobbies: new FormControl(false),
   });
 
   constructor(
@@ -62,6 +63,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
         reversedPoliticalView: settings.reversedPoliticalView,
         preferredGender: settings.preferredGender,
         maxDistance: settings.maxDistance,
+        considerHobbies: settings.considerHobbies,
       });
       this.gettingSettings = false;
     });
@@ -83,6 +85,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
     const reversedPoliticalView = this.settingsForm.get('reversedPoliticalView');
     const preferredGender = this.settingsForm.get('preferredGender');
     const maxDistance = this.settingsForm.get('maxDistance');
+    const considerHobbies = this.settingsForm.get('considerHobbies');
 
     if (
       this.settingsForm.valid &&
@@ -93,7 +96,8 @@ export class SettingsComponent implements OnInit, AfterViewInit {
       considerGender &&
       reversedPoliticalView &&
       preferredGender &&
-      maxDistance
+      maxDistance &&
+      considerHobbies
     ) {
       this.submitting = true;
       this.settingsService
@@ -105,6 +109,7 @@ export class SettingsComponent implements OnInit, AfterViewInit {
           reversedPoliticalView: reversedPoliticalView.value,
           preferredGender: preferredGender.value,
           maxDistance: maxDistance.value,
+          considerHobbies: considerHobbies.value,
         })
         .catch((e) => {
           this.modalService.showAlert(e as string);

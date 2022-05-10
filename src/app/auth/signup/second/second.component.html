@@ -22,7 +22,20 @@
       [ngClass]="form.get('society')?.invalid ? 'is-invalid' : 'is-valid'" min="1" max="100" step="1">
     <div>
     </div>
+
+    <hr>
+
+    <div class="row">
+      <div class="col">
+        <label for="hobbies" class="form-label">Hobbies</label>
+        <select formControlName="hobbies" aria-label="Hobbies Select" class="form-select" name="hobbies" multiple>
+          <option *ngFor="let hobby of hobbiesValues" [value]="hobby">{{ hobbies[hobby] }}</option>
+        </select>
+      </div>
+    </div>
+
   </div>
+
   <div class="row">
     <button class="btn btn-secondary col m-2" (click)="back()">Back</button>
     <button class="btn btn-primary col m-2" [disabled]="form.invalid || form.pristine">Next</button>

@@ -85,6 +85,7 @@
           </div>
         </div>
       </div>
+
       <div class="my-2"
         *ngIf="profile?.interests?.civil || profile?.interests?.diplomatic || profile?.interests?.economic || profile?.interests?.society || profile?.interests?.ideology">
         <div class="row mx-5">
@@ -175,6 +176,53 @@
                 <label for="society" class="form-label">Society</label>
                 <input type="range" class="form-range" id="society" formControlName="society" min="1" max="100"
                   step="1">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="my-2" *ngIf="profile?.interests?.hobbies && profile?.interests?.hobbies?.length != 0">
+        <div class="row mx-5">
+          <button class="col btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#hobbies"
+            aria-expanded="false" aria-controls="hobbies">
+            Hobbies
+          </button>
+          <i *ngIf="isPrivateProfile()" class="col-1 bi bi-pencil-square fs-2" style="cursor: pointer;"
+            [ngClass]="editingHobbies ? 'text-danger' : 'text-dark'" (click)="editingHobbies = !editingHobbies"></i>
+          <i class="col-1 bi bi-send fs-2 ms-2" [ngClass]="hobbiesForm.valid ? 'text-success' : 'text-danger'"
+            style="cursor: pointer;" [style.display]="editingHobbies ? 'initial' : 'none'"
+            (click)="submitHobbies()"></i>
+        </div>
+
+        <div class="collapse my-2" id="hobbies">
+          <div *ngIf="!editingHobbies" class="container text-start">
+
+            <div class="row align-items-baseline">
+              <!-- <div class="row text-center fs-5"><span style="text-align: center; font-weight: bold;">Hobbies</span>
+              </div> -->
+              <div class="row">
+                <div class="col-6 text-center" style="word-wrap: normal; word-break: break-all;"
+                  *ngFor="let hobby of getHobbies(profile?.interests?.hobbies || []); let i = index">
+                  <hr>
+                  <span>{{ hobby }}</span>
+                  <hr>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div *ngIf="editingHobbies" class="container">
+            <form [formGroup]="hobbiesForm" (ngSubmit)="submitHobbies()">
+              <div class="row">
+                <div class="col">
+                  <label for="hobbies" class="form-label">Hobbies</label>
+                  <select formControlName="hobbies" aria-label="Hobbies Select" class="form-select" name="hobbies"
+                    multiple>
+                    <option *ngFor="let hobby of hobbiesValues" [value]="hobby">{{ hobbies[hobby] }}</option>
+                  </select>
+                </div>
               </div>
             </form>
           </div>

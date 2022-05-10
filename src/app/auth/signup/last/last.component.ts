@@ -23,7 +23,8 @@ export class LastComponent implements OnInit {
       this.signupService.signUpData.data3?.reversedPoliticalView != undefined ? this.signupService.signUpData.data3?.reversedPoliticalView : false
     ),
     preferredGender: new FormControl(this.signupService.signUpData.data3?.preferredGender || []),
-    maxDistance: new FormControl(this.signupService.signUpData.data3?.maxDistance != undefined ? this.signupService.signUpData.data3?.maxDistance : 10, [Validators.min(0), Validators.max(1000)])
+    maxDistance: new FormControl(this.signupService.signUpData.data3?.maxDistance != undefined ? this.signupService.signUpData.data3?.maxDistance : 10, [Validators.min(0), Validators.max(1000)]),
+    considerHobbies: new FormControl(this.signupService.signUpData.data3?.considerHobbies != undefined ? this.signupService.signUpData.data3?.considerHobbies : false),
   });
 
   constructor(
@@ -51,6 +52,7 @@ export class LastComponent implements OnInit {
       const reversedPoliticalView: boolean = this.form.get('reversedPoliticalView')?.value;
       const preferredGender: Gender[] = this.form.get('preferredGender')?.value;
       const maxDistance: number = this.form.get('maxDistance')?.value
+      const considerHobbies: boolean = this.form.get('considerHobbies')?.value
 
       if (
         darkmode != undefined &&
@@ -59,7 +61,8 @@ export class LastComponent implements OnInit {
         considerPolitics != undefined &&
         reversedPoliticalView != undefined &&
         preferredGender != undefined &&
-        maxDistance != undefined
+        maxDistance != undefined &&
+        considerHobbies != undefined
       ) {
         this.signupService.set3({
           isDarkMode: darkmode,
@@ -69,6 +72,7 @@ export class LastComponent implements OnInit {
           reversedPoliticalView,
           preferredGender,
           maxDistance,
+          considerHobbies
         });
         this.signupService.submit().then(
           () => {
