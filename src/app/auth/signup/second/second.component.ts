@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SignupService } from '../signup.service';
 import { ModalService } from '../../../shared/modal.service';
+import { Hobbies } from '../../../shared/constants/hobbies';
 
 @Component({
   selector: 'app-second',
@@ -10,6 +11,8 @@ import { ModalService } from '../../../shared/modal.service';
   styleUrls: ['./second.component.scss'],
 })
 export class SecondComponent implements OnInit {
+  readonly hobbiesValues: number[] = Object.values(Hobbies).filter((hobby) => typeof hobby === 'number') as number[];
+  readonly hobbies = Hobbies;
   form = new FormGroup({
     economic: new FormControl(this.signupService.signUpData.data2?.economic || 50, [
       Validators.min(1),
@@ -27,6 +30,7 @@ export class SecondComponent implements OnInit {
       Validators.min(1),
       Validators.max(100),
     ]),
+    hobbies: new FormControl(this.signupService.signUpData.data2?.hobbies || []),
   });
 
   constructor(
@@ -34,7 +38,7 @@ export class SecondComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private modalService: ModalService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     if (!this.signupService.signUpData.data1) {
@@ -51,9 +55,10 @@ export class SecondComponent implements OnInit {
       const diplomatic = this.form.get('diplomatic')?.value;
       const civil = this.form.get('civil')?.value;
       const society = this.form.get('society')?.value;
+      const hobbies = this.form.get('hobbies')?.value;
 
       if (economic && diplomatic && civil && society) {
-        this.signupService.set2({ economic, diplomatic, civil, society });
+        this.signupService.set2({ economic, diplomatic, civil, society, hobbies });
         this.router.navigate(['../3'], { relativeTo: this.route });
       }
     }

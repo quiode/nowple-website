@@ -10,6 +10,7 @@ import { GeneralService } from '../../shared/general.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Gender } from '../../shared/constants/genders';
 import * as haversine from 'haversine';
+import { Hobbies } from '../../shared/constants/hobbies';
 
 @Component({
   selector: 'app-profile',
@@ -18,11 +19,14 @@ import * as haversine from 'haversine';
 })
 export class ProfileComponent implements OnInit {
   readonly genders = Object.values(Gender);
+  readonly hobbiesValues: number[] = Object.values(Hobbies).filter((hobby) => typeof hobby === 'number') as number[];
+  readonly hobbies = Hobbies;
   readonly initialSelectValue = 'Select your Gender';
   profile?: User;
   uuid: string;
   editingPolitics = false;
   editingPersonal = false;
+  editingHobbies = false;
   profilePicture: SafeUrl = environment.defaultProfilePicture;
   politicsForm = new FormGroup({
     economic: new FormControl(0, [
@@ -50,6 +54,9 @@ export class ProfileComponent implements OnInit {
     locationX: new FormControl(0),
     locationY: new FormControl(0),
   });
+  hobbiesForm = new FormGroup({
+    hobbies: new FormControl([]),
+  })
   distance?: number;
 
   constructor(
@@ -104,6 +111,9 @@ export class ProfileComponent implements OnInit {
                 this.distance = Math.round(distance * 100) / 100;
               }
             });
+          }
+          if (this.profile.interests?.hobbies) {
+            this.hobbiesForm.patchValue({ hobbies: this.profile.interests.hobbies });
           }
         }
       });
@@ -211,6 +221,37 @@ export class ProfileComponent implements OnInit {
     );
   }
 
+  submitHobbies() {
+    if (this.hobbiesForm.invalid) {
+      this.modalService.showAlert('Form is invalid');
+      return;
+    }
+
+    if (!this.profile) {
+      this.modalService.showAlert('Profile not found');
+      return;
+    }
+
+    this.editingHobbies = false;
+
+    const updateProfile: User = {
+      ...this.profile,
+      interests: {
+        ...this.profile.interests,
+        hobbies: this.hobbiesForm.get('hobbies')?.value || this.profile.interests?.hobbies,
+      },
+    };
+
+    this.profileService.updateProfile(updateProfile).then(
+      (user) => {
+        this.router.navigate([''], { relativeTo: this.route });
+      },
+      (err: string) => {
+        this.modalService.showAlert(err);
+      }
+    );
+  }
+
   blockUser() {
     this.profileService.blockUser(this.uuid).then(
       () => {
@@ -249,5 +290,12 @@ export class ProfileComponent implements OnInit {
     const x = this.profile?.location?.coordinates[0] || 0;
     const y = this.profile?.location?.coordinates[1] || 0;
     return [Math.round(x * 100) / 100, Math.round(y * 100) / 100];
+  }
+
+  // get value from hobbies enum
+  getHobbies(hobbies: Hobbies[]): string[] {
+    return hobbies.map((hobby) => {
+      return Hobbies[hobby];
+    });
   }
 }

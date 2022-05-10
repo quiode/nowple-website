@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Gender } from '../../shared/constants/genders';
 import { Point } from 'geojson';
+import { Hobbies } from 'src/app/shared/constants/hobbies';
 
 export interface SignUpData {
   data1?: FormData1;
@@ -21,6 +22,7 @@ export interface FormData2 {
   diplomatic: number;
   civil: number;
   society: number;
+  hobbies: Hobbies[]
 }
 
 export interface FormData3 {
@@ -31,6 +33,7 @@ export interface FormData3 {
   reversedPoliticalView: boolean;
   preferredGender: Gender[];
   maxDistance: number;
+  considerHobbies: boolean;
 }
 
 @Injectable({

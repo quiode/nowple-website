@@ -8,4 +8,5 @@ export interface Settings {
   reversedPoliticalView: boolean;
   preferredGender: Gender[];
   maxDistance: number;
+  considerHobbies: boolean;
 }
